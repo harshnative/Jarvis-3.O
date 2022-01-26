@@ -10,6 +10,11 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '.'))
+
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -36,7 +41,7 @@ class Ui_Form(object):
 "border-image: url(:/newPrefix/prev_button.svg);")
         self.pushButton.setText("")
         self.pushButton.setObjectName("pushButton")
-        self.horizontalLayout.addWidget(self.pushButton, 0, QtCore.Qt.AlignVCenter)
+        self.horizontalLayout.addWidget(self.pushButton, 0, QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.pushButton_3 = QtWidgets.QPushButton(Form)
         self.pushButton_3.setMinimumSize(QtCore.QSize(0, 128))
         self.pushButton_3.setStyleSheet("background-color: rgb(55, 0, 179);\n"
@@ -95,8 +100,19 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.pushButton_3.setText(_translate("Form", "Sample"))
-        self.pushButton_4.setText(_translate("Form", "Sample"))
-        self.pushButton_5.setText(_translate("Form", "Sample"))
-        self.pushButton_6.setText(_translate("Form", "Sample"))
-import mainScreen_rc
+        self.pushButton_3.setText(_translate("Form", "Comming\nSoon"))
+        self.pushButton_4.setText(_translate("Form", "Comming\nSoon"))
+        self.pushButton_5.setText(_translate("Form", "Comming\nSoon"))
+        self.pushButton_6.setText(_translate("Form", "Comming\nSoon"))
+
+import mainScreen_resource
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Form = QtWidgets.QWidget()
+    ui = Ui_Form()
+    ui.setupUi(Form)
+    Form.show()
+    sys.exit(app.exec())
