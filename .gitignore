@@ -6,6 +6,8 @@ apis.txt
 
 *.html
 
+combined_assests/
+
 generateDiagram.py
 
 binFiles/
