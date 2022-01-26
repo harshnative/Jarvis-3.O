@@ -100,10 +100,13 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.pushButton_3.setText(_translate("Form", "Comming\nSoon"))
-        self.pushButton_4.setText(_translate("Form", "Comming\nSoon"))
-        self.pushButton_5.setText(_translate("Form", "Comming\nSoon"))
-        self.pushButton_6.setText(_translate("Form", "Comming\nSoon"))
+        self.pushButton_3.setText(_translate("Form", "SAMPLE"))
+        self.pushButton_4.setText(_translate("Form", "SAMPLE"))
+        self.pushButton_5.setText(_translate("Form", "SAMPLE"))
+        self.pushButton_6.setText(_translate("Form", "SAMPLE"))
+        self.pushButton_6.styleSheet
+
+        self.pushButton.setDisabled
 
 import mainScreen_resource
 
