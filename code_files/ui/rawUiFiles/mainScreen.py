@@ -10,17 +10,13 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-import sys
-import os
-sys.path.append(os.path.join(os.path.dirname(__file__), '.'))
-
 
 
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(800, 600)
-        Form.setStyleSheet("background-color: rgb(18, 18, 18);")
+        Form.setStyleSheet("background-color: rgb(0, 0, 0);")
         self.gridLayout = QtWidgets.QGridLayout(Form)
         self.gridLayout.setObjectName("gridLayout")
         self.verticalLayout = QtWidgets.QVBoxLayout()
@@ -108,7 +104,7 @@ class Ui_Form(object):
 
         self.pushButton.setDisabled
 
-import mainScreen_resource
+from ..rawUiFiles import mainScreen_resource
 
 
 if __name__ == "__main__":
