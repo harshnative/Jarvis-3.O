@@ -1,5 +1,5 @@
 from typing import _SpecialForm
-from .rawUiFiles import mainScreen
+from .rawUiFiles.mainScreen_fol import mainScreen
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5 import QtMultimedia, QtMultimediaWidgets
 import sys 

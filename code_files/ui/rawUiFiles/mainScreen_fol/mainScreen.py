@@ -104,7 +104,7 @@ class Ui_Form(object):
 
         self.pushButton.setDisabled
 
-from ..rawUiFiles import mainScreen_resource
+from ..mainScreen_fol import mainScreen_resource
 
 
 if __name__ == "__main__":
