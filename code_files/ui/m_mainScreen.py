@@ -1,25 +1,12 @@
 from typing import _SpecialForm
-from rawUiFiles import mainScreen
+from .rawUiFiles import mainScreen
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5 import QtMultimedia, QtMultimediaWidgets
 import sys 
 import os
 import time
+from .packages.globalData.globalDataClasses import GlobalDicts
 
-
-
-
-class GlobalData:
-
-    modules_dict = {
-        "Password.manager" : None , 
-        "Password.manager1" : None , 
-        "Password.manager2" : None , 
-        "Password.manager3" : None , 
-        "Password.manager4" : None , 
-        "Password.manager5" : None , 
-        "Password.manager6" : None , 
-    }
 
 
 
@@ -168,17 +155,8 @@ class mainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
         buttonsList = []
 
         # get button names from modules dict
-        for i in GlobalData.modules_dict.keys():
-            
-            moduleName = ""
-
-            for j in i:
-                if(j == "."):
-                    moduleName = moduleName + "\n"
-                else:
-                    moduleName = moduleName + j
-
-            buttonsList.append(moduleName)
+        for i in GlobalDicts.modules_dict.keys():
+            buttonsList.append(i)
 
 
         # make the 4 modulus 0
@@ -413,8 +391,6 @@ class mainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
 
 
 if __name__ == "__main__":
-
-    import sys
     app = QtWidgets.QApplication(sys.argv)
     Form = QtWidgets.QWidget()
     ui = mainScreenWidget()
