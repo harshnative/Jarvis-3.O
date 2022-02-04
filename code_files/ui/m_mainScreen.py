@@ -325,9 +325,19 @@ class mainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
     def animate_button_press(self , buttonObj):
         original_style_sheet = buttonObj.styleSheet()
 
-        buttonObj.setStyleSheet("background-color: rgb(3, 218, 198);\n"
-        "color: rgb(238, 238, 236);\n"
-        "font: 85 24pt \"FreeSans\";\n")
+        original_style_sheetList = original_style_sheet.split("\n")
+
+        new_style_sheetList = []
+
+        for i in original_style_sheetList:
+            i = str(i)
+            if(i.find("background-color") != -1):
+                new_style_sheetList.append("background-color: rgb(3, 218, 198);\n")
+            else:
+                new_style_sheetList.append(i)
+
+        
+        buttonObj.setStyleSheet("".join(new_style_sheetList))
 
         QtCore.QCoreApplication.processEvents()
 
