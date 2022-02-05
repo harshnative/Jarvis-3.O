@@ -77,7 +77,7 @@ def clearLayout(layout):
 class mainScreenWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
 
     # call the 
-    def __init__(self, parent=None , firstTime = True , verify_password_func = None , return_password = None):
+    def __init__(self , loggerObj , parent=None , firstTime = True , verify_password_func = None , return_password = None):
         
         # calling the parent init
         super(mainScreenWidget, self).__init__(parent)
@@ -85,6 +85,12 @@ class mainScreenWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
         self.var_firstTime = firstTime
         self.var_verify_password_func = verify_password_func
 
+
+        self.loggerObj = loggerObj.logger_obj
+        self.print_log = loggerObj.print_log
+
+        self.loggerObj.debug("finished object init")
+        self.print_log()
 
 
 
@@ -105,8 +111,11 @@ class mainScreenWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
         # calling the parent setupUi
         super().setupUi(Form)
 
-        # if not first time
+        self.loggerObj.debug("finished parent ui setup")
+        self.print_log()
 
+
+        # if not first time
         if(not(self.var_firstTime)):
             # the rename password label to Enter password
             self.password.setText("Enter Password : ")
@@ -128,11 +137,17 @@ class mainScreenWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
         # connect login button
         self.login_btn.pressed.connect(lambda: self.press_login_button(self.login_btn))
 
+        self.loggerObj.debug("finished custom ui setup")
+        self.print_log()
+
 
 
 
     # function to define when the view button is pressed
     def press_view_button(self , buttonObj):
+
+        self.loggerObj.debug("view button pressed")
+        self.print_log()
 
         self.animate_button_press(buttonObj)
 
@@ -141,6 +156,9 @@ class mainScreenWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
         # if the button is not in dict add it
         if(GlobalData.buttonValues.get(buttonObj , None) is None):
             GlobalData.buttonValues[buttonObj] = False
+
+            self.loggerObj.debug("add view button to dict")
+            self.print_log()
 
         # if the button is pressed when it is in off state
         if(GlobalData.buttonValues.get(buttonObj) is False):
@@ -173,6 +191,8 @@ class mainScreenWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
             
             GlobalData.original_button_styleSheet[buttonObj] = original_style_sheet
         
+            self.loggerObj.debug("view button turned on")
+            self.print_log()
 
         # if the button is pressed when it is in on state
         elif(GlobalData.buttonValues.get(buttonObj) is True):
@@ -188,33 +208,55 @@ class mainScreenWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
             
             buttonObj.setStyleSheet(GlobalData.original_button_styleSheet.get(buttonObj))
             
-
+            self.loggerObj.debug("view button turned off")
+            self.print_log()
 
 
 
 
 
     def press_login_button(self , buttonObj):
+
+        self.loggerObj.debug("login button pressed")
+        self.print_log()
+
         self.animate_button_press(buttonObj)
 
         
         # if first time
         if(self.var_firstTime):
+            self.loggerObj.debug("first time login")
+            self.print_log()
+
             pass1 = self.input1.text()
             pass2 = self.input2.text()
 
             if(pass1 != pass2):
+                self.loggerObj.info("passwords does not match")
+                self.print_log()
                 self.showPasswordDoesNotMatch()
+
             else:
+                self.loggerObj.debug("passwords matched")
+                self.print_log()
+
                 M_passwordManager_GlobalData.newPassword = pass1
                 self.close_button()
 
         else:
+            self.loggerObj.debug("regular login")
+            self.print_log()
+
             pass1 = self.input1.text()
 
             if(self.var_verify_password_func(pass1)):
+                self.loggerObj.debug("password verified")
+                self.print_log()
+
                 self.close_button()
             else:
+                self.loggerObj.info("incorrect password")
+                self.print_log()
                 self.showPasswordIncorrect()
 
 
@@ -225,6 +267,10 @@ class mainScreenWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
 
     # function to animate the button press
     def animate_button_press(self , buttonObj):
+
+        self.loggerObj.debug("animate button pressed")
+        self.print_log()
+
         original_style_sheet = buttonObj.styleSheet()
 
         original_style_sheetList = original_style_sheet.split("\n")
@@ -254,6 +300,9 @@ class mainScreenWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
 
     # function to show a message pop warning that the passwords does not match
     def showPasswordDoesNotMatch(self):
+        self.loggerObj.debug("showPasswordDoesNotMatch invoked")
+        self.print_log()
+
         msg = QtWidgets.QMessageBox()
 
         msg.setWindowTitle("Jarvis Error")
@@ -280,12 +329,18 @@ class mainScreenWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
 
         runMsg = msg.exec_()
 
+        self.loggerObj.debug("showPasswordDoesNotMatch quitted")
+        self.print_log()
+
 
 
 
 
     # function to show a message pop warning that the passwords does not match
     def showPasswordIncorrect(self):
+        self.loggerObj.debug("showPasswordIncorrect invoked")
+        self.print_log()
+
         msg = QtWidgets.QMessageBox()
 
         msg.setWindowTitle("Jarvis Error")
@@ -297,6 +352,9 @@ class mainScreenWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
         msg.setStandardButtons(QtWidgets.QMessageBox.Retry)
 
         runMsg = msg.exec_()
+
+        self.loggerObj.debug("showPasswordIncorrect quitted")
+        self.print_log()
 
 
 

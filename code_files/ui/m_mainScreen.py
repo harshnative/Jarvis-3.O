@@ -6,8 +6,8 @@ import sys
 import os
 import time
 from .packages.globalData.globalDataClasses import GlobalDicts
-
-
+import logging
+from .packages.log_module.logger import Logger
 
 
 
@@ -73,10 +73,16 @@ def clearLayout(layout):
 class mainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
 
     # call the 
-    def __init__(self, parent=None):
+    def __init__(self , loggerObj , parent=None):
         
         # calling the parent init
         super(mainScreenWidget, self).__init__(parent)
+
+        self.loggerObj = loggerObj.logger_obj
+        self.print_log = loggerObj.print_log
+
+        self.loggerObj.debug("finished object init")
+        self.print_log()
 
 
 
@@ -99,13 +105,15 @@ class mainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
         # calling the parent setupUi
         super().setupUi(Form)
 
+        self.loggerObj.debug("finished parent ui setup")
+        self.print_log()
+
 
         # setup video player
         self.mediaPlayer = QtMultimedia.QMediaPlayer()
 
         self.videoWidget = QtMultimediaWidgets.QVideoWidget()
     
-
         # add video player to grid layout
         self.gridLayout_2.addWidget(self.videoWidget)
 
@@ -115,6 +123,7 @@ class mainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
         # start video
         self.start_video()
 
+        self.loggerObj.info("finished adding screen saver video")
 
 
 
@@ -141,7 +150,8 @@ class mainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
         self.pushButton_6.pressed.connect(lambda: self.press_module_button(self.pushButton_6))
 
 
-
+        self.loggerObj.debug("finished custom ui setup")
+        self.print_log()
 
 
 
@@ -152,6 +162,9 @@ class mainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
 
     # make button list from modules list
     def make_module_buttons(self):
+        self.loggerObj.debug("make module buttons")
+        self.print_log()
+
         buttonsList = []
 
         # get button names from modules dict
@@ -183,7 +196,8 @@ class mainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
 
     # method to generate buttons in buttonList
     def generate_module_buttons(self , start = 1):
-
+        self.loggerObj.debug("generating module buttons")
+        self.print_log()
 
         # method to set the button state based on name
         def setButtonName(name , buttonObj):
@@ -220,7 +234,8 @@ class mainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
             
         self.current_start_module_buttons = start
 
-
+        self.loggerObj.debug("finished generating module buttons")
+        self.print_log()
         
 
 
@@ -236,6 +251,8 @@ class mainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
 
     # method to define what happens when the next button is pressed
     def press_arrow_button_next(self):
+        self.loggerObj.debug("next button pressed")
+        self.print_log()
 
         self.animate_button_press(self.pushButton_2)
 
@@ -258,6 +275,9 @@ class mainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
             "\n"
             "\n"
             "border-image: url(:/newPrefix/next_button.svg);")
+
+            self.loggerObj.info("No more modules can't go further")
+            self.print_log()
             return None
 
         # else update the module buttons
@@ -285,6 +305,9 @@ class mainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
     # method to define what happends when the prev button is pressed
     def press_arrow_button_prev(self):
 
+        self.loggerObj.debug("prev button pressed")
+        self.print_log()
+
         self.animate_button_press(self.pushButton)
 
         # 1. enable the next_arrow_button
@@ -307,6 +330,9 @@ class mainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
             "\n"
             "\n"
             "border-image: url(:/newPrefix/prev_button.svg);")
+
+            self.loggerObj.info("no more modules can't go back")
+            self.print_log()
             return None
 
         # else update the module buttons
@@ -323,6 +349,9 @@ class mainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
 
     # function to animate the button press
     def animate_button_press(self , buttonObj):
+        self.loggerObj.debug("animating button pressed invoked")
+        self.print_log()
+        
         original_style_sheet = buttonObj.styleSheet()
 
         original_style_sheetList = original_style_sheet.split("\n")
@@ -354,9 +383,11 @@ class mainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
 
     # method to define when one of the module button is pressed
     def press_module_button(self , buttonObj):
+
         self.animate_button_press(buttonObj)
 
-        print(buttonObj.text())
+        self.loggerObj.info(f"opening {buttonObj.text()} module")
+        self.print_log()
 
 
 
@@ -377,6 +408,9 @@ class mainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
         self.mediaPlayer.setMedia(QtMultimedia.QMediaContent(QtCore.QUrl.fromLocalFile(resource_path("combined_assests/jarvis_screen_saver.mp4"))))
         self.mediaPlayer.play()
 
+        self.loggerObj.debug("video started")
+        self.print_log()
+
 
 
 
@@ -389,6 +423,9 @@ class mainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
         if(self.mediaPlayer.state() == 0):
             self.mediaPlayer.setPosition(0)
             self.mediaPlayer.play()
+                    
+            self.loggerObj.debug("video restarted")
+            self.print_log()
 
 
 
