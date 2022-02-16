@@ -110,5 +110,40 @@ def __test_Manager():
 
 
 
+
+
+
+
+
+def __test_Manager2():
+
+    obj = PassManager("hello" , "./test.db")
+
+    obj.insert_new_pass("don" , "123456" , "don thapar.com" , "None" , ["edu"])
+    obj.insert_new_pass("john" , "123456" , "john gmail.com" , "None" , ["google" , "mail"])
+    obj.insert_new_pass("user1" , "123456" , "user1 gmail.com" , "None" , ["google"])
+    obj.insert_new_pass("user2" , "123456" , "user2 facebook" , "None" , ["meta"])
+    obj.insert_new_pass("user3" , "123456" , "user3 insta" , "None" , ["gram"])
+    obj.insert_new_pass("user4" , "123456" , "user4 whatsapp" , "None" , ["meta"])
+    obj.insert_new_pass("user5" , "123456" , "user5 example" , "None" , ["url"])
+    obj.insert_new_pass("user6" , "123456" , "user6 canva" , "None" , ["photo"])
+    obj.insert_new_pass("user7" , "123456" , "user7 yahoo" , "None" , ["mail"])
+    obj.insert_new_pass("user8" , "123456" , "user8 proton" , "None" , ["vpn"])
+
+    for i in obj.db.all():
+        print(i)
+
+    
+    # obj.update_pass("95041738b422d27a20ad5d660c8952d6" , "newuser" , "newpass" , "caption of new user")
+
+
+    # for i in obj.db.all():
+    #     print(i)
+
+
+
+
+
+
 if __name__ == "__main__":
-    __test_Manager()
+    __test_Manager2()
