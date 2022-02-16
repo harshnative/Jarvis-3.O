@@ -1,15 +1,14 @@
-from typing import _SpecialForm
 from .rawUiFiles.passwordManager_fol import passwordLogin
+from .rawUiFiles.passwordManager_fol import password_main
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5 import QtMultimedia, QtMultimediaWidgets
 import sys 
 import os
 import time
 from .packages.globalData.globalDataClasses import GlobalDicts
-from .packages.globalData.globalDataClasses import M_passwordManager_GlobalData
-
-
-
+from .packages.password_manager.main import PassManager
+import pathlib
+from PyQt5 import sip
 
 
 class GlobalData:
@@ -51,12 +50,31 @@ def resource_path(relative_path):
 
 
 
-
+# function to clear all widgets in a layout
 def clearLayout(layout):
-    while layout.count():
-        child = layout.takeAt(0)
-        if child.widget():
-                child.widget().deleteLater()
+    if(layout != None):
+        while layout.count():
+            child = layout.takeAt(0)
+            if child.widget():
+                    child.widget().deleteLater()
+
+
+
+
+# function to clear a layout which contains layouts
+def clearLayout2(layout):
+    layout_item_list = []
+
+    for i in range(layout.count()):
+        layout_item = layout.itemAt(i)
+        layout_item_list.append(layout_item)
+
+    layout_item_list.reverse()
+
+    for i in layout_item_list:
+        clearLayout(i)
+        layout.removeItem(i)
+    
 
 
 
@@ -71,23 +89,41 @@ def clearLayout(layout):
 
 
 
+#  ____                                                      _   _                       _          __        __  _       _                  _    
+# |  _ \    __ _   ___   ___  __      __   ___    _ __    __| | | |       ___     __ _  (_)  _ __   \ \      / / (_)   __| |   __ _    ___  | |_  
+# | |_) |  / _` | / __| / __| \ \ /\ / /  / _ \  | '__|  / _` | | |      / _ \   / _` | | | | '_ \   \ \ /\ / /  | |  / _` |  / _` |  / _ \ | __| 
+# |  __/  | (_| | \__ \ \__ \  \ V  V /  | (_) | | |    | (_| | | |___  | (_) | | (_| | | | | | | |   \ V  V /   | | | (_| | | (_| | |  __/ | |_  
+# |_|      \__,_| |___/ |___/   \_/\_/    \___/  |_|     \__,_| |_____|  \___/   \__, | |_| |_| |_|    \_/\_/    |_|  \__,_|  \__, |  \___|  \__| 
+#                                                                                |___/                                        |___/               
 
 
-
-class mainScreenWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
+# class implementing additonal ui elements in password login widget
+class PasswordLoginWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
 
     # call the 
-    def __init__(self , loggerObj , parent=None , firstTime = True , verify_password_func = None , return_password = None):
+    def __init__(self , loggerObj , parent=None , firstTime = True , verify_password_func = None , verify_password_func_args = None):
         
         # calling the parent init
-        super(mainScreenWidget, self).__init__(parent)
+        super(PasswordLoginWidget, self).__init__(parent)
 
+        # if first time , then we need to create a new password
         self.var_firstTime = firstTime
+
+        # verify_password_func_args + password will to passed to verify password func
         self.var_verify_password_func = verify_password_func
+        
+        # make verify_password_func_args = empty list if None
+        if(verify_password_func_args == None):
+            self.verify_password_func_args = []
+        else:
+            self.verify_password_func_args = verify_password_func_args
 
-
+        # setup logger obj
         self.loggerObj = loggerObj.logger_obj
         self.print_log = loggerObj.print_log
+
+        # variable containg password after verifying
+        self.returnedPassword = None
 
         self.loggerObj.debug("finished object init")
         self.print_log()
@@ -103,16 +139,18 @@ class mainScreenWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
 
 
 
-
+    # function to setup ui
     def setupUi(self, Form):
-
-        self.close_button = Form.close
 
         # calling the parent setupUi
         super().setupUi(Form)
 
         self.loggerObj.debug("finished parent ui setup")
         self.print_log()
+
+        # close button for closing the dialog
+        self.close_button = Form.close
+
 
 
         # if not first time
@@ -136,6 +174,7 @@ class mainScreenWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
         
         # connect login button
         self.login_btn.pressed.connect(lambda: self.press_login_button(self.login_btn))
+        self.input1.returnPressed.connect(lambda: self.press_login_button(self.login_btn))
 
         self.loggerObj.debug("finished custom ui setup")
         self.print_log()
@@ -215,6 +254,7 @@ class mainScreenWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
 
 
 
+    # function to define when login button is pressed
     def press_login_button(self , buttonObj):
 
         self.loggerObj.debug("login button pressed")
@@ -240,7 +280,9 @@ class mainScreenWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
                 self.loggerObj.debug("passwords matched")
                 self.print_log()
 
-                M_passwordManager_GlobalData.newPassword = pass1
+                # password to create db will be added to returnedPassword object
+                self.returnedPassword = pass1
+
                 self.close_button()
 
         else:
@@ -249,9 +291,12 @@ class mainScreenWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
 
             pass1 = self.input1.text()
 
-            if(self.var_verify_password_func(pass1)):
+            if(self.var_verify_password_func(*self.verify_password_func_args , pass1)):
                 self.loggerObj.debug("password verified")
                 self.print_log()
+
+                # password to open db will be added to returnedPassword object
+                self.returnedPassword = pass1
 
                 self.close_button()
             else:
@@ -364,10 +409,287 @@ class mainScreenWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# class containing main password screen ui
+class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
+
+    # call the init
+    def __init__(self , filePath , loggerObj , parent=None):
+        
+        # calling the parent init
+        super(PasswordMainWidget, self).__init__(parent)
+
+        # setup logger obj
+        self.loggerObj = loggerObj.logger_obj
+        self.print_log = loggerObj.print_log
+
+        self.loggerObj.debug("finished object init")
+        self.print_log()
+
+
+        # if the db file already exist
+        filePath = pathlib.Path(filePath).absolute()
+
+        # if the db already exist then it is not first time
+        firstTime = not(filePath.is_file())
+
+
+        # function to verify password for db
+        def verifyPassFunc(filePath , password):
+            try:
+                PassManager(password , filePath)
+                return True
+            except RuntimeError:
+                return False
+
+
+        # function to open the password input widget and get the password
+        def openPassInputWindow():
+            Form = QtWidgets.QDialog()
+            ui = PasswordLoginWidget(loggerObj , firstTime=firstTime , verify_password_func=verifyPassFunc , verify_password_func_args=[filePath])
+            ui.setupUi(Form)
+            Form.show()
+            Form.exec()
+
+            returnedPassword = ui.returnedPassword
+
+            del ui
+            del Form
+
+            return returnedPassword
+
+
+        # generate db object
+        self._password = openPassInputWindow()
+        self.dbObj = PassManager(self._password , filePath)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # function to setup ui
+    def setupUi(self, Form):
+
+        # calling the parent setupUi
+        super().setupUi(Form)
+
+        # form close button
+        self.close_button = Form.close
+
+        self.loggerObj.debug("finished parent ui setup")
+        self.print_log()
+
+
+        self.addPassToScrollArea()
+
+        self.loggerObj.debug("finished custom ui setup")
+        self.print_log()
+
+
+
+
+
+    
+
+    # function to add all passwords to scroll area
+    def addPassToScrollArea(self):
+
+        self.loggerObj.debug("adding passwords to scroll area")
+        self.print_log()
+
+        # clear all previous widgets in vertical layout _2
+        clearLayout2(self.verticalLayout_2)
+
+        self.loggerObj.debug("cleared old widgets in scroll area")
+        self.print_log()
+
+        count = 1
+
+        # using button group to seperate out which button was pressed
+        self.caption_button_group = QtWidgets.QButtonGroup()
+        self.caption_button_group.setExclusive(True)
+
+        self.cuser_button_group = QtWidgets.QButtonGroup()
+        self.cuser_button_group.setExclusive(True)
+
+        self.cpass_button_group = QtWidgets.QButtonGroup()
+        self.cpass_button_group.setExclusive(True)
+
+
+        for item in self.dbObj.db.all():
+            # horizontal layout
+            horizontalLayout = QtWidgets.QHBoxLayout()
+            horizontalLayout.setContentsMargins(-1, 0, -1, 16)
+
+            # caption button
+            pushButton = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+            pushButton.setStyleSheet("font: 81 20pt \"FreeSans\";\n"
+    "background-color: rgb(55, 0, 179);\n"
+    "color: rgb(255, 255, 255);\n"
+    "padding: 16px;\n"
+    "text-align: left;")
+
+            pushButton.setObjectName(item.get("id") + ":caption")
+            pushButton.setText(f"""{count}. {item.get("caption")}""")
+            self.caption_button_group.addButton(pushButton)
+
+            horizontalLayout.addWidget(pushButton)
+
+
+            # username copy button
+            pushButton_2 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+            pushButton_2.setStyleSheet("font: 100 20pt \"FreeSans\";\n"
+    "background-color: rgb(78, 154, 6);\n"
+    "color: rgb(255, 255, 255);\n"
+    "padding: 16px;")
+
+            pushButton_2.setObjectName(item.get("id") + ":C_user")
+            pushButton_2.setText("C_user")
+            self.cuser_button_group.addButton(pushButton_2)
+
+            horizontalLayout.addWidget(pushButton_2)
+
+
+            # password copy button
+            pushButton_3 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+            pushButton_3.setStyleSheet("font: 100 20pt \"FreeSans\";\n"
+    "background-color: rgb(78, 154, 6);\n"
+    "color: rgb(255, 255, 255);\n"
+    "padding: 16px;")
+
+            pushButton_3.setObjectName(item.get("id") + ":C_pass")
+            pushButton_3.setText("C_pass")
+            self.cpass_button_group.addButton(pushButton_3)
+
+            horizontalLayout.addWidget(pushButton_3)
+            horizontalLayout.setStretch(0, 5)
+            horizontalLayout.setStretch(1, 1)
+            horizontalLayout.setStretch(2, 1)
+
+            # add horizontal layout to scroll area
+            self.verticalLayout_2.addLayout(horizontalLayout)
+
+            self.loggerObj.debug(f"successfully added password at count = {count}")
+            self.print_log()
+
+            count = count + 1
+
+
+        self.caption_button_group.buttonPressed.connect(self.caption_button_pressed)
+        self.cuser_button_group.buttonPressed.connect(self.cuser_button_pressed)
+        self.cpass_button_group.buttonPressed.connect(self.cpass_button_pressed)
+
+
+
+
+
+    # function to handle events when caption button is pressed
+    def caption_button_pressed(self , buttonObj):
+
+        self.animate_button_press(buttonObj)
+        
+        print(buttonObj.objectName())
+        print(buttonObj.text())
+
+
+
+
+
+    # function to handle events when cuser button is pressed
+    def cuser_button_pressed(self , buttonObj):
+
+        self.animate_button_press(buttonObj)
+        
+        print(buttonObj.objectName())
+        print(buttonObj.text())
+
+
+
+    # function to handle events when caption cpass is pressed
+    def cpass_button_pressed(self , buttonObj):
+
+        self.animate_button_press(buttonObj)
+        
+        print(buttonObj.objectName())
+        print(buttonObj.text())
+
+
+
+
+
+    # function to animate the button press
+    def animate_button_press(self , buttonObj):
+
+        self.loggerObj.debug("animate button pressed")
+        self.print_log()
+
+        original_style_sheet = buttonObj.styleSheet()
+
+        original_style_sheetList = original_style_sheet.split("\n")
+
+        new_style_sheetList = []
+
+        for i in original_style_sheetList:
+            i = str(i)
+            if(i.find("background-color") != -1):
+                new_style_sheetList.append("background-color: rgb(3, 218, 198);\n")
+            else:
+                new_style_sheetList.append(i)
+
+        
+        buttonObj.setStyleSheet("".join(new_style_sheetList))
+
+        QtCore.QCoreApplication.processEvents()
+
+        time.sleep(0.05)
+
+        buttonObj.setStyleSheet(original_style_sheet)
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     Form = QtWidgets.QWidget()
-    ui = mainScreenWidget()
+    ui = PasswordLoginWidget()
     ui.setupUi(Form)
     Form.show()
     sys.exit(app.exec())
