@@ -5,15 +5,3 @@ class GlobalDicts:
 
 
 
-
-
-
-
-
-
-
-
-
-class M_passwordManager_GlobalData:
-
-    newPassword = None
