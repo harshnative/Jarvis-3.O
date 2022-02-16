@@ -70,13 +70,13 @@ def clearLayout(layout):
 
 
 
-class mainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
+class MainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
 
     # call the 
     def __init__(self , loggerObj , parent=None):
         
         # calling the parent init
-        super(mainScreenWidget, self).__init__(parent)
+        super(MainScreenWidget, self).__init__(parent)
 
         self.loggerObj = loggerObj.logger_obj
         self.print_log = loggerObj.print_log
@@ -440,7 +440,7 @@ class mainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     Form = QtWidgets.QWidget()
-    ui = mainScreenWidget()
+    ui = MainScreenWidget()
     ui.setupUi(Form)
     Form.show()
     sys.exit(app.exec())
