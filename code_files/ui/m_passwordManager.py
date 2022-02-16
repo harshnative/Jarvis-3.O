@@ -9,7 +9,7 @@ from .packages.globalData.globalDataClasses import GlobalDicts
 from .packages.password_manager.main import PassManager
 import pathlib
 from PyQt5 import sip
-
+import pyperclip
 
 class GlobalData:
 
@@ -479,6 +479,7 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
         # generate db object
         self._password = openPassInputWindow()
         self.dbObj = PassManager(self._password , filePath)
+        self.dbObj_all = self.dbObj.db.all()
 
 
 
@@ -505,8 +506,10 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
         self.loggerObj.debug("finished parent ui setup")
         self.print_log()
 
-
+        # generate password in scroll area
         self.addPassToScrollArea()
+
+        self.filter_lineEdit.textChanged[str].connect(self.filter_password_in_scollView)
 
         self.loggerObj.debug("finished custom ui setup")
         self.print_log()
@@ -518,7 +521,10 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
     
 
     # function to add all passwords to scroll area
-    def addPassToScrollArea(self):
+    def addPassToScrollArea(self , defaultList = None):
+
+        if(defaultList == None):
+            defaultList = self.dbObj_all
 
         self.loggerObj.debug("adding passwords to scroll area")
         self.print_log()
@@ -542,7 +548,7 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
         self.cpass_button_group.setExclusive(True)
 
 
-        for item in self.dbObj.db.all():
+        for item in defaultList:
             # horizontal layout
             horizontalLayout = QtWidgets.QHBoxLayout()
             horizontalLayout.setContentsMargins(-1, 0, -1, 16)
@@ -605,12 +611,64 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
         self.cuser_button_group.buttonPressed.connect(self.cuser_button_pressed)
         self.cpass_button_group.buttonPressed.connect(self.cpass_button_pressed)
 
+        self.loggerObj.debug(f"successfully added all passwords")
+        self.print_log()
+
+
+
+
+
+
+    # function to filter password in scroll view
+    def filter_password_in_scollView(self):
+        
+        # get text from filter line edit
+        toSearch = self.filter_lineEdit.text()
+
+        # if empty display all
+        if(toSearch == ""):
+            self.addPassToScrollArea(None)
+
+        newList = []
+
+        # search for each db instance
+        for i in self.dbObj_all:
+
+            found = False
+
+            caption = i.get("caption" , "")
+            tags = i.get("tags" , [])
+
+            # if caption matches
+            if(caption.find(toSearch) != -1):
+                found = True
+            else:
+                for j in tags:
+
+                    # if any tag matches
+                    if(j.find(toSearch) != -1):
+                        found = True
+                        break
+            
+            if(found):
+                newList.append(i)
+
+        self.addPassToScrollArea(newList)
+        
+
+
+
+
+
 
 
 
 
     # function to handle events when caption button is pressed
     def caption_button_pressed(self , buttonObj):
+
+        self.loggerObj.debug(f"caption button pressed")
+        self.print_log()
 
         self.animate_button_press(buttonObj)
         
@@ -624,27 +682,53 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
     # function to handle events when cuser button is pressed
     def cuser_button_pressed(self , buttonObj):
 
-        self.animate_button_press(buttonObj)
+        self.loggerObj.debug(f"cuser button pressed")
+        self.print_log()
         
-        print(buttonObj.objectName())
-        print(buttonObj.text())
+        id = buttonObj.objectName().split(":")[0]
+
+        id_instance = self.dbObj.db.search(self.dbObj.query.id == id)[0]
+        
+        username = id_instance.get("username" , "")
+
+        pyperclip.copy(username)
+
+        self.loggerObj.debug(f"copied username to clipboard")
+        self.print_log()
+
+        self.animate_button_press(buttonObj , "Copied !" , 0.15)
+
+
 
 
 
     # function to handle events when caption cpass is pressed
     def cpass_button_pressed(self , buttonObj):
-
-        self.animate_button_press(buttonObj)
         
-        print(buttonObj.objectName())
-        print(buttonObj.text())
+        self.loggerObj.debug(f"cpass button pressed")
+        self.print_log()
+        
+        id = buttonObj.objectName().split(":")[0]
+
+        id_instance = self.dbObj.db.search(self.dbObj.query.id == id)[0]
+        
+        password = id_instance.get("password" , "")
+
+        pyperclip.copy(password)
+
+        self.loggerObj.debug(f"copied password to clipboard")
+        self.print_log()
+
+        self.animate_button_press(buttonObj , "Copied !" , 0.15)
+
+
 
 
 
 
 
     # function to animate the button press
-    def animate_button_press(self , buttonObj):
+    def animate_button_press(self , buttonObj , new_text = None , timeAnimation = 0.05):
 
         self.loggerObj.debug("animate button pressed")
         self.print_log()
@@ -665,13 +749,19 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
         
         buttonObj.setStyleSheet("".join(new_style_sheetList))
 
+        if(new_text != None):
+            originalText = buttonObj.text()
+            buttonObj.setText(new_text)
+
+
         QtCore.QCoreApplication.processEvents()
 
-        time.sleep(0.05)
+        time.sleep(timeAnimation)
 
         buttonObj.setStyleSheet(original_style_sheet)
 
-
+        if(new_text != None):
+            buttonObj.setText(originalText)
     
 
 
