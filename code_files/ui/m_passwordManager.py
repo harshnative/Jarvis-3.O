@@ -1,5 +1,6 @@
 from .rawUiFiles.passwordManager_fol import passwordLogin
 from .rawUiFiles.passwordManager_fol import password_main
+from .rawUiFiles.passwordManager_fol import password_show
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5 import QtMultimedia, QtMultimediaWidgets
 import sys 
@@ -8,7 +9,6 @@ import time
 from .packages.globalData.globalDataClasses import GlobalDicts
 from .packages.password_manager.main import PassManager
 import pathlib
-from PyQt5 import sip
 import pyperclip
 
 class GlobalData:
@@ -101,13 +101,14 @@ def clearLayout2(layout):
 class PasswordLoginWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
 
     # call the 
-    def __init__(self , loggerObj , parent=None , firstTime = True , verify_password_func = None , verify_password_func_args = None):
+    def __init__(self , loggerObj , parent=None , firstTime = True , verify_password_func = None , verify_password_func_args = None , login_button_text = None):
         
         # calling the parent init
         super(PasswordLoginWidget, self).__init__(parent)
 
         # if first time , then we need to create a new password
         self.var_firstTime = firstTime
+        self.var_login_button_text = login_button_text
 
         # verify_password_func_args + password will to passed to verify password func
         self.var_verify_password_func = verify_password_func
@@ -151,6 +152,8 @@ class PasswordLoginWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
         # close button for closing the dialog
         self.close_button = Form.close
 
+        Form.setWindowTitle("Jarvis Password Input")
+
 
 
         # if not first time
@@ -169,12 +172,22 @@ class PasswordLoginWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
         self.input2.setEchoMode(QtWidgets.QLineEdit.Password)
 
         # connect view buttons
-        self.pushButton.pressed.connect(lambda: self.press_view_button(self.pushButton))
-        self.pushButton_2.pressed.connect(lambda: self.press_view_button(self.pushButton_2))
+        self.pushButton.clicked.connect(lambda: self.press_view_button(self.pushButton))
+        self.pushButton_2.clicked.connect(lambda: self.press_view_button(self.pushButton_2))
         
         # connect login button
-        self.login_btn.pressed.connect(lambda: self.press_login_button(self.login_btn))
+        self.login_btn.clicked.connect(lambda: self.press_login_button(self.login_btn))
         self.input1.returnPressed.connect(lambda: self.press_login_button(self.login_btn))
+
+        
+        if(self.var_firstTime and not(self.var_login_button_text == None)):
+            self.login_btn.setText("Create")
+        elif(self.var_firstTime):
+            self.login_btn.setText(self.var_login_button_text)
+            
+
+        # connect quit button
+        self.exit_btn.clicked.connect(lambda: self.exit_button_pressed(self.exit_btn))
 
         self.loggerObj.debug("finished custom ui setup")
         self.print_log()
@@ -182,10 +195,10 @@ class PasswordLoginWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
 
 
 
-    # function to define when the view button is pressed
+    # function to define when the view button is clicked
     def press_view_button(self , buttonObj):
 
-        self.loggerObj.debug("view button pressed")
+        self.loggerObj.debug("view button clicked")
         self.print_log()
 
         self.animate_button_press(buttonObj)
@@ -199,8 +212,8 @@ class PasswordLoginWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
             self.loggerObj.debug("add view button to dict")
             self.print_log()
 
-        # if the button is pressed when it is in off state
-        if(GlobalData.buttonValues.get(buttonObj) is False):
+        # if the button is clicked when it is in off state
+        if(GlobalData.buttonValues.get(buttonObj , None) is False):
 
             if(button_name == "pushButton"):
                 self.input1.setEchoMode(QtWidgets.QLineEdit.Normal)
@@ -233,8 +246,8 @@ class PasswordLoginWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
             self.loggerObj.debug("view button turned on")
             self.print_log()
 
-        # if the button is pressed when it is in on state
-        elif(GlobalData.buttonValues.get(buttonObj) is True):
+        # if the button is clicked when it is in on state
+        elif(GlobalData.buttonValues.get(buttonObj , None) is True):
 
             if(button_name == "pushButton"):
                 self.input1.setEchoMode(QtWidgets.QLineEdit.Password)
@@ -253,11 +266,22 @@ class PasswordLoginWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
 
 
 
+    # function to handle exit button press
+    def exit_button_pressed(self , buttonObj):
 
-    # function to define when login button is pressed
+        self.loggerObj.debug("exiting password login window")
+        self.print_log()
+
+        self.animate_button_press(buttonObj)
+
+        self.close_button()
+
+
+
+    # function to define when login button is clicked
     def press_login_button(self , buttonObj):
 
-        self.loggerObj.debug("login button pressed")
+        self.loggerObj.debug("login button clicked")
         self.print_log()
 
         self.animate_button_press(buttonObj)
@@ -313,7 +337,7 @@ class PasswordLoginWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
     # function to animate the button press
     def animate_button_press(self , buttonObj):
 
-        self.loggerObj.debug("animate button pressed")
+        self.loggerObj.debug("animate button clicked")
         self.print_log()
 
         original_style_sheet = buttonObj.styleSheet()
@@ -427,6 +451,443 @@ class PasswordLoginWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
 
 
 
+
+
+
+
+
+
+
+
+# class implementing additonal ui elements in password login widget
+class PasswordShowWidget(QtWidgets.QWidget , password_show.Ui_Form):
+
+    # call the 
+    def __init__(self , loggerObj , parent=None , add = True , data = None):
+        
+        # calling the parent init
+        super(PasswordShowWidget, self).__init__(parent)
+
+        # setup logger obj
+        self.loggerObj_store = loggerObj
+        self.loggerObj = loggerObj.logger_obj
+        self.print_log = loggerObj.print_log
+
+        # variable containg password after verifying
+        self.returnedPassword = None
+
+        self.var_add = add
+        self.var_data = data
+
+        # 0 - add button
+        # 1 - update button
+        # 2 - delete button
+        # 3 - back button
+        self.windowQuitFlag = None
+
+        if(not(self.var_add) and (self.var_data == None)):
+            raise RuntimeError("data Excepted")
+
+        self.loggerObj.debug("finished object init")
+        self.print_log()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # function to setup ui
+    def setupUi(self, Form):
+
+        # calling the parent setupUi
+        super().setupUi(Form)
+
+        self.loggerObj.debug("finished parent ui setup")
+        self.print_log()
+
+        # close button for closing the dialog
+        self.close_button = Form.close
+
+        Form.setWindowTitle("Jarvis Password Edit")
+
+
+
+        # if not first time
+        if(self.var_add):
+            self.history_label.hide()
+            self.history_textBrowser.hide()
+            self.history_view_button.hide()
+
+            self.delete_button.hide()
+            self.ok_button.setText("Add")
+
+        else:
+            self.username_lineEdit.setText(self.var_data.get("username" , "")) , 
+            self.password_lineEdit.setText(self.var_data.get("password" , "")) ,
+            self.url_lineEdit.setText(self.var_data.get("url" , "")) , 
+            self.caption_lineEdit.setText(self.var_data.get("caption" , "")) ,
+
+            tags_string = ""
+
+            for i in self.var_data.get("tags" , []):
+                tags_string = tags_string + i + " "
+ 
+            tags_string = tags_string.strip()
+
+            self.tags_lineEdit.setText(tags_string) ,
+
+            historyText = ""
+
+            for i in self.var_data.get("history" , "").splitlines():
+                historyText = historyText + "*"*len(i) + "\n"
+
+            self.history_textBrowser.setText(historyText) ,
+
+
+            self.history_view_button.clicked.connect(lambda: self.press_view_textBrowser_button(self.history_view_button , self.history_textBrowser , self.var_data.get("history" , "")))
+            self.delete_button.clicked.connect(lambda: self.delete_button_pressed(self.delete_button))
+
+            self.ok_button.setText("Update")
+
+
+        self.tags_lineEdit.setPlaceholderText("space seperated tags")
+
+
+
+
+        # set password input echo mode to default
+        self.password_lineEdit.setEchoMode(QtWidgets.QLineEdit.Password)
+
+        # connect copy button buttons
+        self.username_copy_button.clicked.connect(lambda: self.copy_button_pressed(self.username_copy_button , self.username_lineEdit))
+        self.password_copy_button.clicked.connect(lambda: self.copy_button_pressed(self.password_copy_button , self.password_lineEdit))
+        self.url_copy_button.clicked.connect(lambda: self.copy_button_pressed(self.url_copy_button , self.url_lineEdit))
+        
+        # connect ok button
+        self.ok_button.clicked.connect(lambda: self.ok_button_pressed(self.ok_button))
+        self.back_button.clicked.connect(lambda: self.back_button_pressed(self.back_button))
+
+        # connect view button
+        self.password_view_button.clicked.connect(lambda: self.press_view_button(self.password_view_button , self.password_lineEdit))
+        
+        
+        self.loggerObj.debug("finished custom ui setup")
+        self.print_log()
+
+
+
+
+
+
+    # method to copy line edit corresponding to button press
+    def copy_button_pressed(self , buttonObj , lineEditObj):
+
+        toCopy = lineEditObj.text()
+
+        pyperclip.copy(toCopy)
+
+        self.animate_button_press(buttonObj , "Copied !" , 0.15)
+
+
+
+
+
+
+    def press_view_button(self , buttonObj , lineEditToToggle):
+
+        self.loggerObj.debug("view button clicked")
+        self.print_log()
+
+        self.animate_button_press(buttonObj)
+
+        # if the button is not in dict add it
+        if(GlobalData.buttonValues.get(buttonObj , None) is None):
+            GlobalData.buttonValues[buttonObj] = False
+
+            self.loggerObj.debug("add view button to dict")
+            self.print_log()
+
+        # if the button is clicked when it is in off state
+        if(GlobalData.buttonValues.get(buttonObj) is False):
+
+            lineEditToToggle.setEchoMode(QtWidgets.QLineEdit.Normal)
+            
+            GlobalData.buttonValues[buttonObj] = True
+
+            buttonObj.setText("Hide")
+
+            # change the button background color to red
+            original_style_sheet = buttonObj.styleSheet()
+
+            original_style_sheetList = original_style_sheet.split("\n")
+
+            new_style_sheetList = []
+
+            for i in original_style_sheetList:
+                i = str(i)
+                if(i.find("background-color") != -1):
+                    new_style_sheetList.append("background-color: rgb(176, 0, 32);\n")
+                else:
+                    new_style_sheetList.append(i)
+
+            
+            buttonObj.setStyleSheet("".join(new_style_sheetList))
+            
+            GlobalData.original_button_styleSheet[buttonObj] = original_style_sheet
+        
+            self.loggerObj.debug("view button turned on")
+            self.print_log()
+
+        # if the button is clicked when it is in on state
+        elif(GlobalData.buttonValues.get(buttonObj) is True):
+
+            lineEditToToggle.setEchoMode(QtWidgets.QLineEdit.Password)
+            
+            GlobalData.buttonValues[buttonObj] = False
+
+            buttonObj.setText("View")
+            
+            buttonObj.setStyleSheet(GlobalData.original_button_styleSheet.get(buttonObj))
+            
+            self.loggerObj.debug("view button turned off")
+            self.print_log()
+
+
+
+
+
+
+    # method to toggle btw password and normal view in text browser
+    def press_view_textBrowser_button(self , buttonObj , textBrowserObj , textBrowserOriginalData):
+
+        self.loggerObj.debug("view button clicked")
+        self.print_log()
+
+        self.animate_button_press(buttonObj)
+
+        # if the button is not in dict add it
+        if(GlobalData.buttonValues.get(buttonObj , None) is None):
+            GlobalData.buttonValues[buttonObj] = False
+
+            self.loggerObj.debug("add view button to dict")
+            self.print_log()
+
+
+        # if the button is clicked when it is in off state
+        if(GlobalData.buttonValues.get(buttonObj) is False):
+
+            textBrowserObj.setText(textBrowserOriginalData)
+
+            
+            GlobalData.buttonValues[buttonObj] = True
+
+            buttonObj.setText("Hide")
+
+            # change the button background color to red
+            original_style_sheet = buttonObj.styleSheet()
+
+            original_style_sheetList = original_style_sheet.split("\n")
+
+            new_style_sheetList = []
+
+            for i in original_style_sheetList:
+                i = str(i)
+                if(i.find("background-color") != -1):
+                    new_style_sheetList.append("background-color: rgb(176, 0, 32);\n")
+                else:
+                    new_style_sheetList.append(i)
+
+            
+            buttonObj.setStyleSheet("".join(new_style_sheetList))
+            
+            GlobalData.original_button_styleSheet[buttonObj] = original_style_sheet
+        
+            self.loggerObj.debug("view button turned on")
+            self.print_log()
+
+        # if the button is clicked when it is in on state
+        elif(GlobalData.buttonValues.get(buttonObj) is True):
+
+            newData = ""
+
+            for i in textBrowserOriginalData.splitlines():
+                newData = newData + "*"*len(i) + "\n"
+
+            textBrowserObj.setText(newData)
+            
+            GlobalData.buttonValues[buttonObj] = False
+
+            buttonObj.setText("View")
+            
+            buttonObj.setStyleSheet(GlobalData.original_button_styleSheet.get(buttonObj))
+            
+            self.loggerObj.debug("view button turned off")
+            self.print_log()
+
+        
+
+
+
+
+    # method to execute when ok button is clicked
+    def ok_button_pressed(self , buttonObj):
+
+        self.loggerObj.debug("ok button clicked")
+        self.print_log()
+
+        if(self.var_add):
+            resultDict = {
+                "username" : self.username_lineEdit.text() , 
+                "password" : self.password_lineEdit.text() ,
+                "url" : self.url_lineEdit.text() , 
+                "caption" : self.caption_lineEdit.text() , 
+                "tags" : self.tags_lineEdit.text() ,
+            }
+
+            self.windowQuitFlag = 0
+
+
+        else:
+            resultDict = {
+                "username" : self.username_lineEdit.text() , 
+                "password" : self.password_lineEdit.text() ,
+                "url" : self.url_lineEdit.text() , 
+                "caption" : self.caption_lineEdit.text() , 
+                "tags" : self.tags_lineEdit.text() ,
+            }
+        
+
+            self.windowQuitFlag = 1
+
+
+        self.var_data = resultDict
+
+        self.animate_button_press(buttonObj)
+
+        self.close_button()
+
+
+
+
+
+    # method to execute when delete button is clicked
+    def delete_button_pressed(self , buttonObj):
+
+        self.loggerObj.debug("delete button clicked")
+        self.print_log()
+
+        self.windowQuitFlag = 2
+
+        self.animate_button_press(buttonObj)
+
+        self.close_button()
+
+
+
+
+
+
+    # method to execute when delete button is clicked
+    def back_button_pressed(self , buttonObj):
+
+        self.loggerObj.debug("back button clicked")
+        self.print_log()
+
+        self.windowQuitFlag = 3
+
+        self.animate_button_press(buttonObj)
+
+        self.close_button()
+
+
+
+
+
+    # function to animate the button press
+    def animate_button_press(self , buttonObj , new_text = None , timeAnimation = 0.05):
+
+        self.loggerObj.debug("animate button clicked")
+        self.print_log()
+
+        original_style_sheet = buttonObj.styleSheet()
+
+        original_style_sheetList = original_style_sheet.split("\n")
+
+        new_style_sheetList = []
+
+        for i in original_style_sheetList:
+            i = str(i)
+            if(i.find("background-color") != -1):
+                new_style_sheetList.append("background-color: rgb(3, 218, 198);\n")
+            else:
+                new_style_sheetList.append(i)
+
+        
+        buttonObj.setStyleSheet("".join(new_style_sheetList))
+
+        if(new_text != None):
+            originalText = buttonObj.text()
+            buttonObj.setText(new_text)
+
+
+        QtCore.QCoreApplication.processEvents()
+
+        time.sleep(timeAnimation)
+
+        buttonObj.setStyleSheet(original_style_sheet)
+
+        if(new_text != None):
+            buttonObj.setText(originalText)
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # class containing main password screen ui
 class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
 
@@ -437,18 +898,22 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
         super(PasswordMainWidget, self).__init__(parent)
 
         # setup logger obj
+        self.loggerObj_store = loggerObj
         self.loggerObj = loggerObj.logger_obj
         self.print_log = loggerObj.print_log
 
         self.loggerObj.debug("finished object init")
         self.print_log()
 
+        self.continueSetup = True
+
 
         # if the db file already exist
-        filePath = pathlib.Path(filePath).absolute()
+        self.filePath = pathlib.Path(filePath).absolute()
+        self.filePath_str = str(self.filePath)
 
         # if the db already exist then it is not first time
-        firstTime = not(filePath.is_file())
+        firstTime = not(self.filePath.is_file())
 
 
         # function to verify password for db
@@ -463,12 +928,19 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
         # function to open the password input widget and get the password
         def openPassInputWindow():
             Form = QtWidgets.QDialog()
-            ui = PasswordLoginWidget(loggerObj , firstTime=firstTime , verify_password_func=verifyPassFunc , verify_password_func_args=[filePath])
+            ui = PasswordLoginWidget(loggerObj , firstTime=firstTime , verify_password_func=verifyPassFunc , verify_password_func_args=[self.filePath])
             ui.setupUi(Form)
             Form.show()
             Form.exec()
 
             returnedPassword = ui.returnedPassword
+
+            if(firstTime and ((returnedPassword == None) or (returnedPassword == ""))):
+                os.remove(filePath)
+                return None 
+            if((returnedPassword == None) or (returnedPassword == "")):
+                return None
+
 
             del ui
             del Form
@@ -476,9 +948,18 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
             return returnedPassword
 
 
+        self.verifyPassFunc_func = verifyPassFunc
+        self.openPassInputWindow_func = openPassInputWindow
+
+
         # generate db object
         self._password = openPassInputWindow()
-        self.dbObj = PassManager(self._password , filePath)
+
+        if(self._password == None):
+            self.continueSetup = False
+            return None
+
+        self.dbObj = PassManager(self._password , self.filePath_str)
         self.dbObj_all = self.dbObj.db.all()
 
 
@@ -503,6 +984,8 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
         # form close button
         self.close_button = Form.close
 
+        Form.setWindowTitle("Jarvis Password Manager")
+
         self.loggerObj.debug("finished parent ui setup")
         self.print_log()
 
@@ -511,9 +994,15 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
 
         self.filter_lineEdit.textChanged[str].connect(self.filter_password_in_scollView)
 
+        self.add_new_button.clicked.connect(lambda : self.add_button_pressed(self.add_new_button))
+
         self.loggerObj.debug("finished custom ui setup")
         self.print_log()
 
+        self.back_button.setText("Change Pass")
+
+        self.quit_button.clicked.connect(lambda : self.quit_button_pressed(self.quit_button))
+        self.back_button.clicked.connect(lambda : self.change_pass_button_pressed(self.back_button))
 
 
 
@@ -537,7 +1026,7 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
 
         count = 1
 
-        # using button group to seperate out which button was pressed
+        # using button group to seperate out which button was clicked
         self.caption_button_group = QtWidgets.QButtonGroup()
         self.caption_button_group.setExclusive(True)
 
@@ -661,28 +1150,153 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
 
 
 
+    # function to handle events when change pass button is clicked
+    def change_pass_button_pressed(self , buttonObj):
+        self.loggerObj.debug(f"chage pass button clicked")
+        self.print_log()
+
+        self.animate_button_press(buttonObj)
+
+
+        def openPassInputWindow(self):
+            Form = QtWidgets.QDialog()
+            ui = PasswordLoginWidget(self.loggerObj_store , firstTime=True , verify_password_func=self.verifyPassFunc_func , verify_password_func_args=[self.filePath] , login_button_text="Change Pass")
+            ui.setupUi(Form)
+            Form.show()
+            Form.exec()
+
+            returnedPassword = ui.returnedPassword
+
+            if((returnedPassword == None) or (returnedPassword == "")):
+                return None
+
+
+            del ui
+            del Form
+
+            return returnedPassword
+
+
+        # generate db object
+        returnedPassword = openPassInputWindow(self)
+
+        if(returnedPassword == None):
+            return None
+        else:
+            self._password = returnedPassword
+
+            self.dbObj.db.storage.change_encryption_key(self._password)
+
+            self.dbObj_all = self.dbObj.db.all()
+
+            self.showPasswordChangedDialog()
+
+        
 
 
 
-    # function to handle events when caption button is pressed
+
+    # function to handle evenets when quit button is clicked
+    def quit_button_pressed(self , buttonObj):
+        self.loggerObj.info(f"quiting password manager")
+        self.print_log()
+
+        self.animate_button_press(buttonObj)
+
+        del self.dbObj
+        del self.dbObj_all
+        del self._password
+
+        self.close_button()
+
+
+
+
+
+
+    # function to handle events when caption button is clicked
     def caption_button_pressed(self , buttonObj):
 
-        self.loggerObj.debug(f"caption button pressed")
+        self.loggerObj.debug(f"caption button clicked")
         self.print_log()
 
         self.animate_button_press(buttonObj)
         
-        print(buttonObj.objectName())
-        print(buttonObj.text())
+        id = buttonObj.objectName().split(":")[0]
+        id_instance = self.dbObj.db.search(self.dbObj.query.id == id)[0]
+
+        Form = QtWidgets.QDialog()
+        ui = PasswordShowWidget(self.loggerObj_store , add = False , data=id_instance)
+        ui.setupUi(Form)
+        Form.show()
+        Form.exec()
+
+        if(ui.windowQuitFlag == 1):
+            newDict = ui.var_data
+
+            print(id)
+
+            self.dbObj.update_pass(id , newDict.get("username" , "") , newDict.get("password" , "") , newDict.get("url" , "") , newDict.get("caption" , "") , newDict.get("tags" , ""))
+
+            self.dbObj_all = self.dbObj.db.all()
+            self.addPassToScrollArea()
+
+            self.loggerObj.info(f"password updated")
+            self.print_log()
+
+        if(ui.windowQuitFlag == 2):
+            print(id)
+            
+            self.dbObj.delete_pass(id)
+
+            self.dbObj_all = self.dbObj.db.all()
+            self.addPassToScrollArea()
+
+            self.loggerObj.info(f"password deleted")
+            self.print_log()
+
+        del ui
+        del Form
+
+        
+
+
+
+    # function to handle events when caption button is clicked
+    def add_button_pressed(self , buttonObj):
+
+        self.loggerObj.debug(f"add button clicked")
+        self.print_log()
+
+        self.animate_button_press(buttonObj)
+        
+        Form = QtWidgets.QDialog()
+        ui = PasswordShowWidget(self.loggerObj_store)
+        ui.setupUi(Form)
+        Form.show()
+        Form.exec()
+
+        if(ui.windowQuitFlag == 0):
+            newDict = ui.var_data
+
+            self.dbObj.insert_new_pass(newDict.get("username" , "") , newDict.get("password" , "") , newDict.get("caption" , "") , newDict.get("url" , "")  , newDict.get("tags" , "") , history="")
+
+            self.dbObj_all = self.dbObj.db.all()
+            self.addPassToScrollArea()
+
+            self.loggerObj.info(f"password added")
+            self.print_log()
+
+        del ui
+        del Form
 
 
 
 
-
-    # function to handle events when cuser button is pressed
+    # function to handle events when cuser button is clicked
     def cuser_button_pressed(self , buttonObj):
 
-        self.loggerObj.debug(f"cuser button pressed")
+        self.loggerObj.debug(f"cuser button clicked")
         self.print_log()
         
         id = buttonObj.objectName().split(":")[0]
@@ -702,10 +1316,10 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
 
 
 
-    # function to handle events when caption cpass is pressed
+    # function to handle events when caption cpass is clicked
     def cpass_button_pressed(self , buttonObj):
         
-        self.loggerObj.debug(f"cpass button pressed")
+        self.loggerObj.debug(f"cpass button clicked")
         self.print_log()
         
         id = buttonObj.objectName().split(":")[0]
@@ -730,7 +1344,7 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
     # function to animate the button press
     def animate_button_press(self , buttonObj , new_text = None , timeAnimation = 0.05):
 
-        self.loggerObj.debug("animate button pressed")
+        self.loggerObj.debug("animate button clicked")
         self.print_log()
 
         original_style_sheet = buttonObj.styleSheet()
@@ -762,6 +1376,33 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
 
         if(new_text != None):
             buttonObj.setText(originalText)
+
+
+
+
+    
+    # function to show a message pop warning that the passwords does not match
+    def showPasswordChangedDialog(self):
+        self.loggerObj.debug("showPasswordChangedDialog invoked")
+        self.print_log()
+
+        msg = QtWidgets.QMessageBox()
+
+        msg.setWindowTitle("Jarvis Info")
+
+        msg.setText("Password changed successfully")
+
+
+        msg.setIcon(QtWidgets.QMessageBox.Information)
+
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+
+
+
+        runMsg = msg.exec_()
+
+        self.loggerObj.debug("showPasswordChangedDialog quitted")
+        self.print_log()
     
 
 
