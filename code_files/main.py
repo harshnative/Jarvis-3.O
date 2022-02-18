@@ -92,12 +92,12 @@ if __name__ == "__main__":
         GlobalData_main.lAnimationObj.start()
 
 
-    if(GlobalData_main.isOnLinux):
-        loggerPath = pathlib.Path(GlobalData_main.folderPathLinux , "logs.log").absolute()
-    else:
-        loggerPath = pathlib.Path(GlobalData_main.folderPathWindows , "logs.log").absolute()
+if(GlobalData_main.isOnLinux):
+    loggerPath = pathlib.Path(GlobalData_main.folderPathLinux , "logs.log").absolute()
+else:
+    loggerPath = pathlib.Path(GlobalData_main.folderPathWindows , "logs.log").absolute()
 
-    globalLogger = Logger(loggerPath , level=GlobalData_main.loggerLevel)
+GlobalData_main.globalLogger = Logger(loggerPath , level=GlobalData_main.loggerLevel)
 
 
 
@@ -113,18 +113,18 @@ def handler(msg_type, msg_log_context, msg_string):
     if(msg_string == "QWidget::paintEngine: Should no longer be called"):
         pass
     else:
-        globalLogger.loggerObj.warning(f"msg_type = {msg_type} , msg_log_context = {msg_log_context} , msg_string = {msg_string}")
-        globalLogger.print_log()
+        GlobalData_main.globalLogger.logger_obj.warning(f"msg_type = {msg_type} , msg_log_context = {msg_log_context} , msg_string = {msg_string}")
+        GlobalData_main.globalLogger.print_log()
         
 
 
 
 if __name__ == "__main__":
-    # QtCore.qInstallMessageHandler(handler)
+    QtCore.qInstallMessageHandler(handler)
     QtWidgets.QApplication.setStyle("fusion")
     app = QtWidgets.QApplication(sys.argv)
     Form = QtWidgets.QWidget()
-    ui = test(globalLogger)
+    ui = test(GlobalData_main.globalLogger)
 
 
     if(GlobalData_main.loggerLevel != logging.DEBUG):
