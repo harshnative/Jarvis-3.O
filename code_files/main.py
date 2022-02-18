@@ -8,32 +8,7 @@ import multiprocessing
 import sys
 import pathlib
 import logging
-
-
-# declaring some global variables
-class GlobalData_main:
-
-    # current version of software
-    currentVersion = 0.1
-
-    # variables to determine the operating system of the user 
-    isOnWindows = False
-    isOnLinux = False
-
-    # variables to manage the loading animation 
-    runLoadingAnimation = True
-    loadingAnimationCount = 5
-    lAnimationObj = None
-
-
-
-    folderPathLinux = None
-    folderPathWindows = pathlib.Path("C:/programData/JarvisData").absolute()
-
-
-    loggerLevel = logging.INFO
-
-
+from ui.packages.globalData.globalDataClasses import GlobalData_main
 
 
 
@@ -61,7 +36,6 @@ if(osUsing == "Linux"):
     except FileExistsError:
         pass
     except PermissionError:
-        print(GlobalData_main.folderPathLinux)
         print("\nPlease run jarvis using sudo")
         sys.exit()
 
@@ -146,7 +120,7 @@ def handler(msg_type, msg_log_context, msg_string):
 
 
 if __name__ == "__main__":
-    QtCore.qInstallMessageHandler(handler)
+    # QtCore.qInstallMessageHandler(handler)
     QtWidgets.QApplication.setStyle("fusion")
     app = QtWidgets.QApplication(sys.argv)
     Form = QtWidgets.QWidget()
