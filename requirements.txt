@@ -1,0 +1,12 @@
+colored==1.4.3
+logzero==1.7.0
+numpy==1.22.2
+pycryptodome==3.14.1
+pycryptodomex==3.11.0
+pyfiglet==0.8.post1
+pyperclip==1.8.2
+PyQt5==5.15.6
+pySecureCryptos==0.44
+pyspark==3.1.2
+tinydb==4.6.1
+tinydb-encrypted-jsonstorage==0.1.2
