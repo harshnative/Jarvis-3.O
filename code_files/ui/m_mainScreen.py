@@ -6,11 +6,12 @@ import sys
 import os
 import time
 from .packages.globalData.globalDataClasses import GlobalLists
+from .packages.globalData.globalDataClasses import GlobalData_main
 import logging
 from .packages.log_module.logger import Logger
 from .m_passwordManager import PasswordMainWidget
-
-
+from .m_settings import SettingsMainWidget
+import pathlib
 
 
 
@@ -87,6 +88,19 @@ class MainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
 
         self.dialogBox_storage = {}
 
+        if(GlobalData_main.isOnLinux):
+            settingsPath = pathlib.Path(GlobalData_main.folderPathLinux , "settings.db").absolute()
+        else:
+            settingsPath = pathlib.Path(GlobalData_main.folderPathWindows , "settings.db").absolute()
+
+
+        self.settingsPath = settingsPath
+
+        tempUi = SettingsMainWidget(self.settingsPath , self.loggerObj_store)
+
+        self.settingsDict = tempUi.settingsDict
+
+        del tempUi
 
 
 
@@ -162,6 +176,14 @@ class MainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
 
 
 
+
+    def closeEvent(self, event):
+        self.loggerObj.info("existing jarvis")
+        self.print_log()
+
+        del self.dialogBox_storage 
+
+        
 
 
     
@@ -399,7 +421,21 @@ class MainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
         
         if(buttonObj.text() == "Password\nmanager"):
 
-            ui = PasswordMainWidget("./test.db" , self.loggerObj_store)
+            dbPath = self.settingsDict.get("password_db_path" , "")
+
+            if(dbPath == ""):
+                if(GlobalData_main.isOnLinux):
+                    dbPath = pathlib.Path(GlobalData_main.folderPathLinux , "password.db").absolute()
+                else:
+                    dbPath = pathlib.Path(GlobalData_main.folderPathWindows , "password.db").absolute()
+
+            else:
+                if(not(pathlib.Path(dbPath).absolute().is_file())):
+                    self.showErrorDialog(f"no db found at {dbPath} , check path in settings or clear it to make new db")
+                    return
+
+
+            ui = PasswordMainWidget(dbPath , self.loggerObj_store)
 
             if(ui.continueSetup):
                 ui.setupUi(Form)
@@ -411,10 +447,19 @@ class MainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
                 del ui
                 del Form
                 return
+
+
+        elif(buttonObj.text() == "Settings"):
+
+            ui = SettingsMainWidget(self.settingsPath , self.loggerObj_store)
+            ui.setupUi(Form)
+            Form.show()
+            Form.exec()
+
+            self.settingsDict = ui.settingsDict
         
 
         self.dialogBox_storage[buttonObj.text()] = [ui , Form]
-
 
 
         self.loggerObj.info(f"opening {buttonObj.text()} module")
@@ -457,6 +502,31 @@ class MainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
                     
             self.loggerObj.debug("video restarted")
             self.print_log()
+
+
+
+    
+    # function to show a message pop warning that the passwords does not match
+    def showErrorDialog(self , errorMsg):
+        self.loggerObj.debug(f"showErrorDialog invoked with error = {errorMsg}")
+        self.print_log()
+
+        msg = QtWidgets.QMessageBox()
+
+        msg.setWindowTitle("Jarvis Error")
+
+        msg.setText(errorMsg)
+
+
+        msg.setIcon(QtWidgets.QMessageBox.Critical)
+
+        msg.setStandardButtons(QtWidgets.QMessageBox.Retry)
+
+        runMsg = msg.exec_()
+
+        self.loggerObj.debug(f"showErrorDialog quitted with error = {errorMsg}")
+        self.print_log()
+    
 
 
 
