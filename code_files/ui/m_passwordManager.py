@@ -180,7 +180,7 @@ class PasswordLoginWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
         self.input1.returnPressed.connect(lambda: self.press_login_button(self.login_btn))
 
         
-        if(self.var_firstTime and not(self.var_login_button_text == None)):
+        if(self.var_firstTime and (self.var_login_button_text == None)):
             self.login_btn.setText("Create")
         elif(self.var_firstTime):
             self.login_btn.setText(self.var_login_button_text)
