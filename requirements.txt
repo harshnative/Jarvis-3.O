@@ -6,7 +6,6 @@ pycryptodomex==3.11.0
 pyfiglet==0.8.post1
 pyperclip==1.8.2
 PyQt5==5.15.6
-pySecureCryptos==0.44
-pyspark==3.1.2
+pySecureCryptos==0.46
 tinydb==4.6.1
 tinydb-encrypted-jsonstorage==0.1.2
