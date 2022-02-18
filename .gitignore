@@ -16,6 +16,8 @@ binFiles/
 
 *.bin
 
+*.db
+
 combinePackage.py
 
 local_packages
