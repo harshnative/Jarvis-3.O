@@ -1234,9 +1234,7 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
         if(ui.windowQuitFlag == 1):
             newDict = ui.var_data
 
-            print(id)
-
-            self.dbObj.update_pass(id , newDict.get("username" , "") , newDict.get("password" , "") , newDict.get("url" , "") , newDict.get("caption" , "") , newDict.get("tags" , ""))
+            self.dbObj.update_pass(id , newDict.get("username" , "") , newDict.get("password" , "") , newDict.get("caption" , "") , newDict.get("url" , "") , newDict.get("tags" , ""))
 
             self.dbObj_all = self.dbObj.db.all()
             self.addPassToScrollArea()
@@ -1245,7 +1243,6 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
             self.print_log()
 
         if(ui.windowQuitFlag == 2):
-            print(id)
             
             self.dbObj.delete_pass(id)
 
