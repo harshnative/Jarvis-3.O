@@ -936,7 +936,10 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
             returnedPassword = ui.returnedPassword
 
             if(firstTime and ((returnedPassword == None) or (returnedPassword == ""))):
-                os.remove(filePath)
+                try:
+                    os.remove(filePath)
+                except FileNotFoundError:
+                    pass
                 return None 
             if((returnedPassword == None) or (returnedPassword == "")):
                 return None
