@@ -37,7 +37,7 @@ class GlobalData_main:
     folderPathLinux = None
     folderPathWindows = pathlib.Path("C:/programData/JarvisData").absolute()
 
-
+    globalLogger = None
     loggerLevel = logging.INFO
 
 
