@@ -29,7 +29,7 @@ class GlobalData_main:
 
     # variables to manage the loading animation 
     runLoadingAnimation = True
-    loadingAnimationCount = 5
+    loadingAnimationCount = 10
     lAnimationObj = None
 
 
