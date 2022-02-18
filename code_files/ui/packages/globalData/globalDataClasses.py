@@ -1,7 +1,12 @@
+
 class GlobalDicts:
-    modules_dict = {
-        "Password\nmanager" : None , 
-    }
+    pass
+
+
+class GlobalLists:
+    modules_list = [
+        "Password\nmanager" ,
+    ]
 
 
 
