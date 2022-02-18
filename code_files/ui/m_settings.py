@@ -268,7 +268,7 @@ class SettingsMainWidget(QtWidgets.QWidget , settings.Ui_Form):
 
         password_db_path = self.password_db_path_lineEdit.text()
 
-        if(not(pathlib.Path(password_db_path).absolute().is_file())):
+        if(not(pathlib.Path(password_db_path).absolute().is_file()) and not(password_db_path == "")):
             self.showErrorDialog(f"no file found at {password_db_path}")
             return 
             
