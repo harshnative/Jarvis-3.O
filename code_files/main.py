@@ -27,6 +27,7 @@ if(osUsing == "Linux"):
     if(sys.argv[0].find(".py") != -1):
         GlobalData_main.folderPathLinux = os.getcwd() + "/JarvisData"
         GlobalData_main.loggerLevel = logging.DEBUG
+        GlobalData_main.loadingAnimationCount = 5
     else:
         GlobalData_main.folderPathLinux = pathlib.Path("/opt/JarvisData").absolute()
 
