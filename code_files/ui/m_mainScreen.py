@@ -5,10 +5,10 @@ from PyQt5 import QtMultimedia, QtMultimediaWidgets
 import sys 
 import os
 import time
-from .packages.globalData.globalDataClasses import GlobalDicts
+from .packages.globalData.globalDataClasses import GlobalLists
 import logging
 from .packages.log_module.logger import Logger
-
+from .m_passwordManager import PasswordMainWidget
 
 
 
@@ -78,11 +78,14 @@ class MainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
         # calling the parent init
         super(MainScreenWidget, self).__init__(parent)
 
+        self.loggerObj_store = loggerObj
         self.loggerObj = loggerObj.logger_obj
         self.print_log = loggerObj.print_log
 
         self.loggerObj.debug("finished object init")
         self.print_log()
+
+        self.dialogBox_storage = {}
 
 
 
@@ -105,6 +108,9 @@ class MainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
         # calling the parent setupUi
         super().setupUi(Form)
 
+        Form.setWindowTitle("Jarvis 3.O")
+
+
         self.loggerObj.debug("finished parent ui setup")
         self.print_log()
 
@@ -123,7 +129,7 @@ class MainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
         # start video
         self.start_video()
 
-        self.loggerObj.info("finished adding screen saver video")
+        self.loggerObj.debug("finished adding screen saver video")
 
 
 
@@ -168,7 +174,7 @@ class MainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
         buttonsList = []
 
         # get button names from modules dict
-        for i in GlobalDicts.modules_dict.keys():
+        for i in GlobalLists.modules_list:
             buttonsList.append(i)
 
 
@@ -384,7 +390,32 @@ class MainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
     # method to define when one of the module button is pressed
     def press_module_button(self , buttonObj):
 
+        self.loggerObj.debug("module button pressed")
+        self.print_log()
+
         self.animate_button_press(buttonObj)
+
+        Form = QtWidgets.QDialog()
+        
+        if(buttonObj.text() == "Password\nmanager"):
+
+            ui = PasswordMainWidget("./test.db" , self.loggerObj_store)
+
+            if(ui.continueSetup):
+                ui.setupUi(Form)
+                Form.show()
+            else:
+                self.loggerObj.info("existing password manager")
+                self.print_log()
+
+                del ui
+                del Form
+                return
+        
+
+        self.dialogBox_storage[buttonObj.text()] = [ui , Form]
+
+
 
         self.loggerObj.info(f"opening {buttonObj.text()} module")
         self.print_log()
