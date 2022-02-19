@@ -106,7 +106,7 @@ GlobalData_main.globalLogger = Logger(loggerPath , level=GlobalData_main.loggerL
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from ui.m_mainScreen import MainScreenWidget as test
+from ui.m_mainScreen_v2 import MainScreenWidget as test
 
 
 def handler(msg_type, msg_log_context, msg_string):
