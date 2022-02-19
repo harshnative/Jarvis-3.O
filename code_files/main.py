@@ -81,6 +81,7 @@ class LoadingAnimation(Thread):
 
 
 from ui.packages.log_module.logger import Logger
+from ui.packages.log_module.logger_windows import Logger as LoggerWin
 
 
 # starting in the main to avoide awakeness by sub processes
@@ -95,10 +96,11 @@ if __name__ == "__main__":
 
 if(GlobalData_main.isOnLinux):
     loggerPath = pathlib.Path(GlobalData_main.folderPathLinux , "logs.log").absolute()
+    GlobalData_main.globalLogger = Logger(loggerPath , level=GlobalData_main.loggerLevel)
 else:
     loggerPath = pathlib.Path(GlobalData_main.folderPathWindows , "logs.log").absolute()
+    GlobalData_main.globalLogger = LoggerWin(loggerPath , level=GlobalData_main.loggerLevel)
 
-GlobalData_main.globalLogger = Logger(loggerPath , level=GlobalData_main.loggerLevel)
 
 
 
@@ -149,3 +151,6 @@ if __name__ == "__main__":
 
 
 
+# make.spec Tree commands
+# Tree('/media/veracrypt63/Projects/Jarvis-3.O/combined_assests', prefix='combined_assests/'),
+# Tree('Z:\\jarvis\\combined_assests', prefix='combined_assests/'),

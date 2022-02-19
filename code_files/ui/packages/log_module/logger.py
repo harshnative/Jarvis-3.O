@@ -1,8 +1,14 @@
 from logzero import logger, logfile, setup_logger
 import logging
-from colored import fg as colored_fg
-from colored import bg as colored_bg
-from colored import attr as colored_attr
+
+try:
+    from colored import fg as colored_fg
+    from colored import bg as colored_bg
+    from colored import attr as colored_attr
+
+except ModuleNotFoundError:
+    pass
+
 from io import StringIO
 
 class Logger:
