@@ -1,0 +1,8 @@
+<RCC>
+  <qresource prefix="newPrefix">
+    <file>prev_button.svg</file>
+  </qresource>
+  <qresource prefix="newPrefix">
+    <file>next_button.svg</file>
+  </qresource>
+</RCC>
