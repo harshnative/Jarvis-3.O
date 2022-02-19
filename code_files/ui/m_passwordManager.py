@@ -1115,34 +1115,39 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
     def filter_password_in_scollView(self):
         
         # get text from filter line edit
-        toSearch = self.filter_lineEdit.text()
+        toSearch = self.filter_lineEdit.text().strip()
+
 
         # if empty display all
         if(toSearch == ""):
             self.addPassToScrollArea(None)
 
+        toSearchList = toSearch.split()
+
+
         newList = []
 
-        # search for each db instance
         for i in self.dbObj_all:
-
-            found = False
 
             caption = i.get("caption" , "")
             tags = i.get("tags" , [])
 
             # if caption matches
-            if(caption.find(toSearch) != -1):
-                found = True
-            else:
-                for j in tags:
+            foundCount = 0
 
-                    # if any tag matches
-                    if(j.find(toSearch) != -1):
-                        found = True
-                        break
+            for toSearch in toSearchList:
+                if(caption.find(toSearch) != -1):
+                    foundCount = foundCount + 1
+
+                else:
+                    for j in tags:
+
+                        # if any tag matches
+                        if(j.find(toSearch) != -1):
+                            foundCount = foundCount + 1
+                            break
             
-            if(found):
+            if(foundCount >= len(toSearchList)):
                 newList.append(i)
 
         self.addPassToScrollArea(newList)
