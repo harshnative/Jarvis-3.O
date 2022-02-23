@@ -9,19 +9,28 @@ import pathlib
 import pyperclip
 import socket
 
+import logging
+from io import StringIO
+
 
 # importing FTP module
-from pyftpdlib.log import config_logging
+from pyftpdlib import log
 from pyftpdlib import servers
 from pyftpdlib.handlers import FTPHandler
 from pyftpdlib.authorizers import DummyAuthorizer
 import errno
 from contextlib import closing
 
+
+
+from threading import Thread
+
 class GlobalData:
 
     buttonValues = {}
     original_button_styleSheet = {}
+
+    serverObj = None
 
 
 
@@ -143,6 +152,12 @@ class NMethods:
 
 
 
+def startFTPserver(address , handler):
+    server = servers.FTPServer(address, handler)
+
+    GlobalData.serverObj = server
+
+    server.serve_forever()
 
 
 
@@ -171,6 +186,11 @@ class FTPServerMainWidget(QtWidgets.QWidget , ftpServer.Ui_Form):
         self.var_password = password
         self.var_default_folder = default_folder
         self.var_anonymous = anonymous
+
+
+
+        self.streamIO = StringIO()
+        self.stream_handler = logging.StreamHandler(self.streamIO)
 
         self.loggerObj.debug("finished object init")
         self.print_log()
@@ -213,22 +233,65 @@ class FTPServerMainWidget(QtWidgets.QWidget , ftpServer.Ui_Form):
 
         # default button
         self.default_button.clicked.connect(lambda : self.default_button_clicked(self.default_button))
+
+        # select button
+        self.select_button.clicked.connect(lambda : self.select_button_clicked(self.select_button))
+
+        # set value in labels
+        self.ip_value_label.setText(NMethods.get_ip_address())
+        self.port_value_label.setText(str(NMethods.getPort(int(self.var_port))))
+        self.ip_port_value_label.setText("ftp://" + self.ip_value_label.text() + ":" + self.port_value_label.text())
+        self.username_value_label.setText(self.var_username)
+        self.password_value_label.setText(self.var_password)
+        self.folder_shared_value_text_browser.setText(str(self.var_default_folder))
+
+
+
+        # start button
+        self.start_button.clicked.connect(lambda : self.start_ftp_server(self.start_button))
+
+
+        # quit button
+        self.quit_button.clicked.connect(lambda : self.quit_button_clicked(self.quit_button))
+
+
+        # clear log Text browser
+        self.log_text_browser.setText("")
+
+        self.loggerObj.debug("completed ui")
+        self.print_log()
+
+
+
+
+
+
+
+    def select_button_clicked(self , buttonObj):
+        dlg = QtWidgets.QFileDialog()
+        dlg.setFileMode(QtWidgets.QFileDialog.Directory)
+        dlg.setDirectory(QtCore.QDir.homePath())
+            
+        dlg.exec()
+
+        filenames = dlg.selectedFiles()
         
+        try:
+            dirName = filenames[0]
+        except IndexError:
+            self.showErrorDialog(f"Select a dir first")
+            return
 
+        self.folder_shared_value_text_browser.setText(str(dirName))
 
-
-
-
-
-
-
-
-
+        self.stackedWidget.setCurrentIndex(1)
 
 
 
     # function to define when default button is pressed
     def default_button_clicked(self , buttonObj):
+        self.loggerObj.debug("default button pressed")
+        self.print_log()
 
         if(self.var_default_folder == ""):
             self.showDefaultFolderNotSetDialog()
@@ -238,30 +301,89 @@ class FTPServerMainWidget(QtWidgets.QWidget , ftpServer.Ui_Form):
 
         self.stackedWidget.setCurrentIndex(1)
 
-        self.start_ftp_server()
         
             
 
 
 
-    def start_ftp_server(self , folder = None):
+    def start_ftp_server(self , buttonObj):
+        self.loggerObj.info("starting ftp server")
+        self.print_log()
 
-        # set value in labels
-        self.ip_value_label.setText(NMethods.get_ip_address())
-        self.port_value_label.setText(str(NMethods.getPort(int(self.var_port))))
-        self.ip_port_value_label.setText("ftp://" + self.ip_value_label.text() + ":" + self.port_value_label.text())
-        self.username_value_label.setText(self.var_username)
-        self.password_value_label.setText(self.var_password)
+        # Instantiate a dummy authorizer for managing 'virtual' users
+        authorizer = DummyAuthorizer()
 
-        if(folder == None):
-            self.folder_shared_value_text_browser.setText(str(self.var_default_folder))
-            folder = self.var_default_folder
+        # Define a new user having full r/w permissions and a read-only
+        # anonymous user
+        authorizer.add_user(self.username_value_label.text(), self.password_value_label.text() , self.folder_shared_value_text_browser.toPlainText() , perm='elradfmwMT')
 
-        else:
-            self.folder_shared_value_text_browser.setText(str(folder))
+        if(self.var_anonymous == "True"):
+            self.loggerObj.info("anonymous access allowed")
+            self.print_log()
+            authorizer.add_anonymous(homedir=self.folder_shared_value_text_browser.toPlainText())
 
+        # Instantiate FTP handler class
+        handler = FTPHandler
+        handler.authorizer = authorizer
+
+        pyftpdlib_logger = logging.getLogger("pyftpdlib")
+        pyftpdlib_logger.addHandler(self.stream_handler)
+
+        log.config_logging(logging.INFO)
+                
+        self.showLogsTimer = QtCore.QTimer()
+        self.showLogsTimer.timeout.connect(self.showLogs)
+        self.showLogsTimer.start(500)
+
+        # Define a customized banner (string returned when client connects)
+        handler.banner = "pyftpdlib based ftpd ready."
+        address = (self.ip_value_label.text() , int(self.port_value_label.text()))  
         
-        
+        self.serverThread = Thread(target=startFTPserver, args=(address,handler,) , daemon=True)
+        self.serverThread.start()
+
+        self.loggerObj.info("FTP server started")
+        self.print_log()
+
+        self.animate_button_press(buttonObj)
+
+        buttonObj.setText("Started !")
+        buttonObj.setDisabled(True)
+
+
+
+
+
+
+
+    def quit_button_clicked(self , buttonObj):
+        self.animate_button_press(buttonObj)
+
+        if(GlobalData.serverObj != None):
+            GlobalData.serverObj.close_all()
+
+        self.loggerObj.info("FTP server Closed")
+        self.print_log()
+
+        self.close_button()
+
+
+
+
+
+
+    def showLogs(self):
+        self.streamIO.flush()
+        value = self.streamIO.getvalue()
+
+        if(len(value) == 0):
+            return
+
+        self.log_text_browser.append(value)
+
+        # reset stream io
+        self.streamIO.seek(0)
+        self.streamIO.truncate(0)
 
 
 
@@ -326,6 +448,30 @@ class FTPServerMainWidget(QtWidgets.QWidget , ftpServer.Ui_Form):
         runMsg = msg.exec_()
 
         self.loggerObj.debug("showDefaultFolderNotSetDialog quitted")
+        self.print_log()
+
+
+
+
+    # function to show a message pop warning that the passwords does not match
+    def showErrorDialog(self , errorMsg):
+        self.loggerObj.debug(f"showErrorDialog invoked with error = {errorMsg}")
+        self.print_log()
+
+        msg = QtWidgets.QMessageBox()
+
+        msg.setWindowTitle("Jarvis Error")
+
+        msg.setText(errorMsg)
+
+
+        msg.setIcon(QtWidgets.QMessageBox.Critical)
+
+        msg.setStandardButtons(QtWidgets.QMessageBox.Retry)
+
+        runMsg = msg.exec_()
+
+        self.loggerObj.debug(f"showErrorDialog quitted with error = {errorMsg}")
         self.print_log()
     
 
