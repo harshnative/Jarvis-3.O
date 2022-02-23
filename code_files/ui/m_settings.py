@@ -149,9 +149,45 @@ class SettingsMainWidget(QtWidgets.QWidget , settings.Ui_Form):
 
 
 
+        try:
+            self.ftp_port = self.dbObj.search(self.query.id == "ftp_port")[0].get("value" , "5000")
+        except IndexError:
+            self.ftp_port = "5000"
+            self.dbObj.insert({"id" : "ftp_port" , "value" : self.ftp_port})
+
+
+        try:
+            self.ftp_username = self.dbObj.search(self.query.id == "ftp_username")[0].get("value" , self.username)
+        except IndexError:
+            self.ftp_username = self.username
+            self.dbObj.insert({"id" : "ftp_username" , "value" : self.ftp_username})
+
+
+
+        try:
+            self.ftp_password = self.dbObj.search(self.query.id == "ftp_password")[0].get("value" , "123456")
+        except IndexError:
+            self.ftp_password = "123456"
+            self.dbObj.insert({"id" : "ftp_password" , "value" : self.ftp_password})
+
+        
+
+
+        try:
+            self.ftp_default_folder = self.dbObj.search(self.query.id == "ftp_default_folder")[0].get("value" , "123456")
+        except IndexError:
+            self.ftp_default_folder = ""
+            self.dbObj.insert({"id" : "ftp_default_folder" , "value" : self.ftp_default_folder})
+
+
+
         self.settingsDict = {
             "username" : self.username , 
             "password_db_path" : self.password_db_path , 
+            "ftp_port" : self.ftp_port , 
+            "ftp_username" : self.ftp_username , 
+            "ftp_password" : self.ftp_password , 
+            "ftp_default_folder" : self.ftp_default_folder , 
         }
 
         self.loggerObj.debug("finished object init")
@@ -247,6 +283,149 @@ class SettingsMainWidget(QtWidgets.QWidget , settings.Ui_Form):
 
 
 
+
+
+
+
+        # add ftp_port 
+        self.ftp_port_verticalLayout = QtWidgets.QVBoxLayout()
+        self.ftp_port_verticalLayout.setObjectName("ftp_port_verticalLayout")
+        
+        self.ftp_port_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.ftp_port_label.setStyleSheet("background-color: rgba(0, 0, 0, 0);\n"
+"font: 63 24pt \"FreeSans\";\n"
+"color: rgb(255, 255, 255);\n"
+"padding: 8px;\n"
+"margin: 8px;")
+        self.ftp_port_label.setObjectName("ftp_port_label")
+        self.ftp_port_label.setText("FTP port : ")
+        
+        self.ftp_port_verticalLayout.addWidget(self.ftp_port_label, 0, QtCore.Qt.AlignVCenter)
+        
+        self.ftp_port_lineEdit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.ftp_port_lineEdit.setStyleSheet("background-color: rgb(85, 87, 83);\n"
+"font: 63 24pt \"FreeSans\";\n"
+"color: rgb(255, 255, 255);\n"
+"padding: 8px;\n"
+"margin: 8px;")
+        self.ftp_port_lineEdit.setObjectName("ftp_port_lineEdit")
+        self.ftp_port_lineEdit.setText(self.ftp_port)
+        
+        self.ftp_port_verticalLayout.addWidget(self.ftp_port_lineEdit)
+        
+        self.verticalLayout_2.addLayout(self.ftp_port_verticalLayout)
+
+
+
+
+
+
+
+
+        # add ftp_username 
+        self.ftp_username_verticalLayout = QtWidgets.QVBoxLayout()
+        self.ftp_username_verticalLayout.setObjectName("ftp_username_verticalLayout")
+        
+        self.ftp_username_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.ftp_username_label.setStyleSheet("background-color: rgba(0, 0, 0, 0);\n"
+"font: 63 24pt \"FreeSans\";\n"
+"color: rgb(255, 255, 255);\n"
+"padding: 8px;\n"
+"margin: 8px;")
+        self.ftp_username_label.setObjectName("ftp_username_label")
+        self.ftp_username_label.setText("FTP username : ")
+        
+        self.ftp_username_verticalLayout.addWidget(self.ftp_username_label, 0, QtCore.Qt.AlignVCenter)
+        
+        self.ftp_username_lineEdit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.ftp_username_lineEdit.setStyleSheet("background-color: rgb(85, 87, 83);\n"
+"font: 63 24pt \"FreeSans\";\n"
+"color: rgb(255, 255, 255);\n"
+"padding: 8px;\n"
+"margin: 8px;")
+        self.ftp_username_lineEdit.setObjectName("ftp_username_lineEdit")
+        self.ftp_username_lineEdit.setText(self.ftp_username)
+        
+        self.ftp_username_verticalLayout.addWidget(self.ftp_username_lineEdit)
+        
+        self.verticalLayout_2.addLayout(self.ftp_username_verticalLayout)
+
+
+
+
+
+
+
+
+        # add ftp_password 
+        self.ftp_password_verticalLayout = QtWidgets.QVBoxLayout()
+        self.ftp_password_verticalLayout.setObjectName("ftp_password_verticalLayout")
+        
+        self.ftp_password_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.ftp_password_label.setStyleSheet("background-color: rgba(0, 0, 0, 0);\n"
+"font: 63 24pt \"FreeSans\";\n"
+"color: rgb(255, 255, 255);\n"
+"padding: 8px;\n"
+"margin: 8px;")
+        self.ftp_password_label.setObjectName("ftp_password_label")
+        self.ftp_password_label.setText("FTP password : ")
+        
+        self.ftp_password_verticalLayout.addWidget(self.ftp_password_label, 0, QtCore.Qt.AlignVCenter)
+        
+        self.ftp_password_lineEdit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.ftp_password_lineEdit.setStyleSheet("background-color: rgb(85, 87, 83);\n"
+"font: 63 24pt \"FreeSans\";\n"
+"color: rgb(255, 255, 255);\n"
+"padding: 8px;\n"
+"margin: 8px;")
+        self.ftp_password_lineEdit.setObjectName("ftp_password_lineEdit")
+        self.ftp_password_lineEdit.setText(self.ftp_password)
+        
+        self.ftp_password_verticalLayout.addWidget(self.ftp_password_lineEdit)
+        
+        self.verticalLayout_2.addLayout(self.ftp_password_verticalLayout)
+
+
+
+
+
+
+
+
+
+        # add ftp_default_folder 
+        self.ftp_default_folder_verticalLayout = QtWidgets.QVBoxLayout()
+        self.ftp_default_folder_verticalLayout.setObjectName("ftp_default_folder_verticalLayout")
+        
+        self.ftp_default_folder_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.ftp_default_folder_label.setStyleSheet("background-color: rgba(0, 0, 0, 0);\n"
+"font: 63 24pt \"FreeSans\";\n"
+"color: rgb(255, 255, 255);\n"
+"padding: 8px;\n"
+"margin: 8px;")
+        self.ftp_default_folder_label.setObjectName("ftp_default_folder_label")
+        self.ftp_default_folder_label.setText("FTP default_folder : ")
+        
+        self.ftp_default_folder_verticalLayout.addWidget(self.ftp_default_folder_label, 0, QtCore.Qt.AlignVCenter)
+        
+        self.ftp_default_folder_lineEdit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.ftp_default_folder_lineEdit.setStyleSheet("background-color: rgb(85, 87, 83);\n"
+"font: 63 24pt \"FreeSans\";\n"
+"color: rgb(255, 255, 255);\n"
+"padding: 8px;\n"
+"margin: 8px;")
+        self.ftp_default_folder_lineEdit.setObjectName("ftp_default_folder_lineEdit")
+        self.ftp_default_folder_lineEdit.setText(self.ftp_default_folder)
+        
+        self.ftp_default_folder_verticalLayout.addWidget(self.ftp_default_folder_lineEdit)
+        
+        self.verticalLayout_2.addLayout(self.ftp_default_folder_verticalLayout)
+
+
+
+
+
+
         self.pushButton_2.clicked.connect(lambda : self.save_button_clicked(self.pushButton_2))
         self.pushButton.clicked.connect(self.close_button)
 
@@ -261,26 +440,116 @@ class SettingsMainWidget(QtWidgets.QWidget , settings.Ui_Form):
         self.loggerObj.debug("save button clicked")
         self.print_log()
 
-        self.dbObj.update({
-            "value" : self.username_lineEdit.text() , 
-        } , 
-        self.query.id == "username")
+        # username
+        username = self.username_lineEdit.text()
 
+
+        # password_db_path
         password_db_path = self.password_db_path_lineEdit.text()
 
         if(not(pathlib.Path(password_db_path).absolute().is_file()) and not(password_db_path == "")):
             self.showErrorDialog(f"no file found at {password_db_path}")
             return 
-            
+
+
+
+
+        # ftp_port
+        ftp_port = self.ftp_port_lineEdit.text()
+
+        try:
+            int_ftp_port = int(ftp_port)
+
+            if(not(1000 < int_ftp_port < 10000)):
+                raise ValueError()
+        except ValueError:
+            self.showErrorDialog(f"invalid port. port number should be btw 1000 to 10000")
+            return 
+
+
+        
+        # ftp_username
+        ftp_username = self.ftp_username_lineEdit.text()
+
+
+
+        # ftp_password
+        ftp_password = self.ftp_password_lineEdit.text()
+
+
+        # ftp_default_folder
+        ftp_default_folder = self.ftp_default_folder_lineEdit.text()
+
+        if(not(pathlib.Path(ftp_default_folder).absolute().is_dir()) and not(ftp_default_folder == "")):
+            self.showErrorDialog(f"no dir found at {password_db_path}")
+            return 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        # update things
+
+
+        # username
+        self.dbObj.update({
+            "value" : self.username_lineEdit.text() , 
+        } , 
+        self.query.id == "username")
+
+
+        # password_db_path
         self.dbObj.update({
             "value" :  password_db_path, 
         } , 
         self.query.id == "password_db_path")
 
 
+        # ftp_port
+        self.dbObj.update({
+            "value" :  ftp_port, 
+        } , 
+        self.query.id == "ftp_port")
+
+
+        # ftp_username
+        self.dbObj.update({
+            "value" :  ftp_username, 
+        } , 
+        self.query.id == "ftp_username")
+
+
+        # ftp_password
+        self.dbObj.update({
+            "value" :  ftp_password, 
+        } , 
+        self.query.id == "ftp_password")
+
+
+        # ftp_default_folder
+        self.dbObj.update({
+            "value" :  ftp_default_folder, 
+        } , 
+        self.query.id == "ftp_default_folder")
+
+
         self.settingsDict = {
-            "username" : self.username_lineEdit.text() , 
+            "username" : username , 
             "password_db_path" : password_db_path , 
+            "ftp_port" : ftp_port , 
+            "ftp_username" : ftp_username , 
+            "ftp_password" : ftp_password , 
+            "ftp_default_folder" : ftp_default_folder , 
         }
 
         self.animate_button_press(buttonObj)
