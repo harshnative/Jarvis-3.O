@@ -255,6 +255,14 @@ class FTPServerMainWidget(QtWidgets.QWidget , ftpServer.Ui_Form):
         self.quit_button.clicked.connect(lambda : self.quit_button_clicked(self.quit_button))
 
 
+        # copy buttons
+        self.ip_copy_button.clicked.connect(lambda : self.copy_button_clicked(self.ip_copy_button , self.ip_value_label.text()))
+        self.port_copy_button.clicked.connect(lambda : self.copy_button_clicked(self.port_copy_button , self.port_value_label.text()))
+        self.ip_port_copy_button.clicked.connect(lambda : self.copy_button_clicked(self.ip_port_copy_button , self.ip_port_value_label.text()))
+        self.username_copy_button.clicked.connect(lambda : self.copy_button_clicked(self.username_copy_button , self.username_value_label.text()))
+        self.password_copy_button.clicked.connect(lambda : self.copy_button_clicked(self.password_copy_button , self.password_value_label.text()))
+        self.folder_shared_copy_button.clicked.connect(lambda : self.copy_button_clicked(self.folder_shared_copy_button , self.folder_shared_value_text_browser.toPlainText()))
+
         # clear log Text browser
         self.log_text_browser.setText("")
 
@@ -265,9 +273,28 @@ class FTPServerMainWidget(QtWidgets.QWidget , ftpServer.Ui_Form):
 
 
 
+    # function to define copy button operation
+    def copy_button_clicked(self , buttonObj , toCopy):
+        self.loggerObj.debug(f"copy button clicked")
+        self.print_log()
+
+        pyperclip.copy(toCopy)
+
+        self.loggerObj.debug(f"copied password to clipboard")
+        self.print_log()
+
+        self.animate_button_press(buttonObj , "Copied !" , 0.15)
 
 
+
+
+    # function to define what happens when select button is pressed
     def select_button_clicked(self , buttonObj):
+        self.loggerObj.debug("select button pressed")
+        self.print_log()
+
+        self.animate_button_press(buttonObj)
+
         dlg = QtWidgets.QFileDialog()
         dlg.setFileMode(QtWidgets.QFileDialog.Directory)
         dlg.setDirectory(QtCore.QDir.homePath())
@@ -285,6 +312,8 @@ class FTPServerMainWidget(QtWidgets.QWidget , ftpServer.Ui_Form):
         self.folder_shared_value_text_browser.setText(str(dirName))
 
         self.stackedWidget.setCurrentIndex(1)
+
+
 
 
 
