@@ -446,6 +446,9 @@ class MainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
         self.animate_button_press(buttonObj)
 
         Form = QtWidgets.QDialog()
+
+        self.loggerObj.info(f"opening {buttonObj.text()} module")
+        self.print_log()
         
         if(buttonObj.text() == "Password\nmanager"):
 
@@ -507,8 +510,7 @@ class MainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
         self.dialogBox_storage[buttonObj.text()] = [ui , Form]
 
 
-        self.loggerObj.info(f"opening {buttonObj.text()} module")
-        self.print_log()
+        
 
 
 
