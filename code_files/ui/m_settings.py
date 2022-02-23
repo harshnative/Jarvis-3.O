@@ -181,6 +181,14 @@ class SettingsMainWidget(QtWidgets.QWidget , settings.Ui_Form):
 
 
 
+        try:
+            self.ftp_anonymous = self.dbObj.search(self.query.id == "ftp_anonymous")[0].get("value" , "True")
+        except IndexError:
+            self.ftp_anonymous = "True"
+            self.dbObj.insert({"id" : "ftp_anonymous" , "value" : self.ftp_anonymous})
+
+
+
         self.settingsDict = {
             "username" : self.username , 
             "password_db_path" : self.password_db_path , 
@@ -188,6 +196,7 @@ class SettingsMainWidget(QtWidgets.QWidget , settings.Ui_Form):
             "ftp_username" : self.ftp_username , 
             "ftp_password" : self.ftp_password , 
             "ftp_default_folder" : self.ftp_default_folder , 
+            "ftp_anonymous" : self.ftp_anonymous , 
         }
 
         self.loggerObj.debug("finished object init")
@@ -425,6 +434,41 @@ class SettingsMainWidget(QtWidgets.QWidget , settings.Ui_Form):
 
 
 
+        # add ftp_anonymous 
+        self.ftp_anonymous_verticalLayout = QtWidgets.QVBoxLayout()
+        self.ftp_anonymous_verticalLayout.setObjectName("ftp_anonymous_verticalLayout")
+        
+        self.ftp_anonymous_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.ftp_anonymous_label.setStyleSheet("background-color: rgba(0, 0, 0, 0);\n"
+"font: 63 24pt \"FreeSans\";\n"
+"color: rgb(255, 255, 255);\n"
+"padding: 8px;\n"
+"margin: 8px;")
+        self.ftp_anonymous_label.setObjectName("ftp_anonymous_label")
+        self.ftp_anonymous_label.setText("FTP anonymous : ")
+        
+        self.ftp_anonymous_verticalLayout.addWidget(self.ftp_anonymous_label, 0, QtCore.Qt.AlignVCenter)
+        
+        self.ftp_anonymous_checkbox = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
+        self.ftp_anonymous_checkbox.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+"font: 63 24pt \"FreeSans\";\n"
+"color: rgb(0, 0, 0);\n"
+"padding: 8px;\n"
+"margin: 8px;\n")
+        self.ftp_anonymous_checkbox.setObjectName("ftp_anonymous_checkbox")
+        
+        if(self.ftp_anonymous == "True"):
+            self.ftp_anonymous_checkbox.setChecked(True)
+        else:
+            self.ftp_anonymous_checkbox.setChecked(False)
+
+        
+        self.ftp_anonymous_verticalLayout.addWidget(self.ftp_anonymous_checkbox)
+        
+        self.verticalLayout_2.addLayout(self.ftp_anonymous_verticalLayout)
+
+
+
 
         self.pushButton_2.clicked.connect(lambda : self.save_button_clicked(self.pushButton_2))
         self.pushButton.clicked.connect(self.close_button)
@@ -442,6 +486,10 @@ class SettingsMainWidget(QtWidgets.QWidget , settings.Ui_Form):
 
         # username
         username = self.username_lineEdit.text()
+
+        if(len(username) == 0):
+            self.showErrorDialog(f"username cannot be empty")
+            return 
 
 
         # password_db_path
@@ -471,10 +519,17 @@ class SettingsMainWidget(QtWidgets.QWidget , settings.Ui_Form):
         # ftp_username
         ftp_username = self.ftp_username_lineEdit.text()
 
+        if(len(ftp_username) == 0):
+            self.showErrorDialog(f"ftp_username cannot be empty")
+            return 
 
 
         # ftp_password
         ftp_password = self.ftp_password_lineEdit.text()
+
+        if(len(ftp_password) == 0):
+            self.showErrorDialog(f"ftp_password cannot be empty")
+            return 
 
 
         # ftp_default_folder
@@ -483,6 +538,13 @@ class SettingsMainWidget(QtWidgets.QWidget , settings.Ui_Form):
         if(not(pathlib.Path(ftp_default_folder).absolute().is_dir()) and not(ftp_default_folder == "")):
             self.showErrorDialog(f"no dir found at {password_db_path}")
             return 
+
+
+
+
+        # ftp_anonymous
+        ftp_anonymous = str(self.ftp_anonymous_checkbox.isChecked())
+
 
 
 
@@ -543,6 +605,13 @@ class SettingsMainWidget(QtWidgets.QWidget , settings.Ui_Form):
         self.query.id == "ftp_default_folder")
 
 
+        # ftp_anonymous
+        self.dbObj.update({
+            "value" :  ftp_anonymous, 
+        } , 
+        self.query.id == "ftp_anonymous")
+
+
         self.settingsDict = {
             "username" : username , 
             "password_db_path" : password_db_path , 
@@ -550,6 +619,7 @@ class SettingsMainWidget(QtWidgets.QWidget , settings.Ui_Form):
             "ftp_username" : ftp_username , 
             "ftp_password" : ftp_password , 
             "ftp_default_folder" : ftp_default_folder , 
+            "ftp_anonymous" : ftp_anonymous , 
         }
 
         self.animate_button_press(buttonObj)
