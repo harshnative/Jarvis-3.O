@@ -7,6 +7,16 @@ import time
 from .packages.globalData.globalDataClasses import GlobalDicts
 import pathlib
 import pyperclip
+import socket
+
+
+# importing FTP module
+from pyftpdlib.log import config_logging
+from pyftpdlib import servers
+from pyftpdlib.handlers import FTPHandler
+from pyftpdlib.authorizers import DummyAuthorizer
+import errno
+from contextlib import closing
 
 class GlobalData:
 
@@ -82,8 +92,50 @@ def clearLayout2(layout):
 
 
 
+class NMethods:
+
+    @classmethod
+    def get_ip_address(cls):
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        ip = s.getsockname()[0]
+        s.close()
+        return ip
 
 
+
+
+    @classmethod
+    def getPort(cls , port):
+
+        # checking if the port number passed is free or not
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        # checking if port binds
+        try:
+            s.bind((cls.get_ip_address() , port))
+
+        # if port does not bind it means that port is not free
+        except socket.error as e:
+            if(e.errno == errno.EADDRINUSE):
+
+                try:
+                    # you don't care just listen to that port
+                    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+                    s.bind((cls.get_ip_address() , port))
+                except Exception as e:
+
+                    # finding free port by assign port = 0 then system will auto bind the port
+                    with closing(s) as s:
+                        s.bind(('', 0))
+                        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+                        
+                        # assign the port to object
+                        port = s.getsockname()[1]
+                        
+            s.close()
+
+        return port
 
 
 
@@ -104,7 +156,7 @@ def clearLayout2(layout):
 class FTPServerMainWidget(QtWidgets.QWidget , ftpServer.Ui_Form):
 
     # call the init
-    def __init__(self , loggerObj , parent=None):
+    def __init__(self , loggerObj , port , username , password , default_folder , anonymous , parent=None):
         
         # calling the parent init
         super(FTPServerMainWidget, self).__init__(parent)
@@ -113,6 +165,12 @@ class FTPServerMainWidget(QtWidgets.QWidget , ftpServer.Ui_Form):
         self.loggerObj_store = loggerObj
         self.loggerObj = loggerObj.logger_obj
         self.print_log = loggerObj.print_log
+
+        self.var_port = port
+        self.var_username = username
+        self.var_password = password
+        self.var_default_folder = default_folder
+        self.var_anonymous = anonymous
 
         self.loggerObj.debug("finished object init")
         self.print_log()
@@ -144,18 +202,66 @@ class FTPServerMainWidget(QtWidgets.QWidget , ftpServer.Ui_Form):
         self.loggerObj.debug("finished parent ui setup")
         self.print_log()
 
+        # remove anon button
+        self.anonymous_label.hide()
+        self.anonymous_enable_button.hide()
+        clearLayout(self.horizontalLayout_8)
 
         # set current window index to 0
         self.stackedWidget.setCurrentIndex(0)
 
 
-
-        # 
-
-
-
+        # default button
+        self.default_button.clicked.connect(lambda : self.default_button_clicked(self.default_button))
+        
 
 
+
+
+
+
+
+
+
+
+
+
+
+    # function to define when default button is pressed
+    def default_button_clicked(self , buttonObj):
+
+        if(self.var_default_folder == ""):
+            self.showDefaultFolderNotSetDialog()
+            return
+
+        self.animate_button_press(buttonObj)
+
+        self.stackedWidget.setCurrentIndex(1)
+
+        self.start_ftp_server()
+        
+            
+
+
+
+    def start_ftp_server(self , folder = None):
+
+        # set value in labels
+        self.ip_value_label.setText(NMethods.get_ip_address())
+        self.port_value_label.setText(str(NMethods.getPort(int(self.var_port))))
+        self.ip_port_value_label.setText("ftp://" + self.ip_value_label.text() + ":" + self.port_value_label.text())
+        self.username_value_label.setText(self.var_username)
+        self.password_value_label.setText(self.var_password)
+
+        if(folder == None):
+            self.folder_shared_value_text_browser.setText(str(self.var_default_folder))
+            folder = self.var_default_folder
+
+        else:
+            self.folder_shared_value_text_browser.setText(str(folder))
+
+        
+        
 
 
 
@@ -200,15 +306,15 @@ class FTPServerMainWidget(QtWidgets.QWidget , ftpServer.Ui_Form):
 
     
     # function to show a message pop warning that the passwords does not match
-    def showPasswordChangedDialog(self):
-        self.loggerObj.debug("showPasswordChangedDialog invoked")
+    def showDefaultFolderNotSetDialog(self):
+        self.loggerObj.debug("showDefaultFolderNotSetDialog invoked")
         self.print_log()
 
         msg = QtWidgets.QMessageBox()
 
         msg.setWindowTitle("Jarvis Info")
 
-        msg.setText("Password changed successfully")
+        msg.setText("Default folder not set. You can set a default folder in settings.")
 
 
         msg.setIcon(QtWidgets.QMessageBox.Information)
@@ -219,7 +325,7 @@ class FTPServerMainWidget(QtWidgets.QWidget , ftpServer.Ui_Form):
 
         runMsg = msg.exec_()
 
-        self.loggerObj.debug("showPasswordChangedDialog quitted")
+        self.loggerObj.debug("showDefaultFolderNotSetDialog quitted")
         self.print_log()
     
 
