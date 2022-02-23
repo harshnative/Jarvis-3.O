@@ -108,7 +108,7 @@ else:
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from ui.m_mainScreen_v2 import MainScreenWidget as test
+from ui.m_ftpServer import FTPServerMainWidget as test
 
 
 def handler(msg_type, msg_log_context, msg_string):
