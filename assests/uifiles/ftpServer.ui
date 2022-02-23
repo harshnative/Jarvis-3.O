@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>804</width>
+    <height>753</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(18, 18, 18);</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QStackedWidget" name="stackedWidget">
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="page">
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QPushButton" name="default_button">
+           <property name="styleSheet">
+            <string notr="true">font: 81 24pt &quot;FreeSans&quot;;
+background-color: rgb(55, 0, 179);
+color: rgb(255, 255, 255);
+padding: 16px;</string>
+           </property>
+           <property name="text">
+            <string>Default</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="select_button">
+           <property name="styleSheet">
+            <string notr="true">font: 81 24pt &quot;FreeSans&quot;;
+background-color: rgb(55, 0, 179);
+color: rgb(255, 255, 255);
+padding: 16px;</string>
+           </property>
+           <property name="text">
+            <string>Select</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="page_2">
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="1" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout" stretch="1,1,1,1,1,1,1,6,2">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="5,1,5,3">
+           <item alignment="Qt::AlignLeft">
+            <widget class="QLabel" name="ip_label">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgba(0, 0, 0, 0);
+color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="text">
+              <string>IP</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="ip_colon_label">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgba(0, 0, 0, 0);
+color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="text">
+              <string>:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="ip_value_label">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgba(0, 0, 0, 0);
+color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="text">
+              <string>192.168.2.1</string>
+             </property>
+            </widget>
+           </item>
+           <item alignment="Qt::AlignRight">
+            <widget class="QPushButton" name="ip_copy_button">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgb(78, 154, 6);
+color: rgb(255, 255, 255);
+padding: 8px 32px 8px 32px;</string>
+             </property>
+             <property name="text">
+              <string>Copy</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="5,1,5,3">
+           <item alignment="Qt::AlignLeft">
+            <widget class="QLabel" name="port_label">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgba(0, 0, 0, 0);
+color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="text">
+              <string>PORT</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="port_colon_label">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgba(0, 0, 0, 0);
+color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="text">
+              <string>:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="port_value_label">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgba(0, 0, 0, 0);
+color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="text">
+              <string>5000</string>
+             </property>
+            </widget>
+           </item>
+           <item alignment="Qt::AlignRight">
+            <widget class="QPushButton" name="port_copy_button">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgb(78, 154, 6);
+color: rgb(255, 255, 255);
+padding: 8px 32px 8px 32px;</string>
+             </property>
+             <property name="text">
+              <string>Copy</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="5,1,5,3">
+           <item alignment="Qt::AlignLeft">
+            <widget class="QLabel" name="ip_port_label">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgba(0, 0, 0, 0);
+color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="text">
+              <string>IP with PORT</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="ip_port_colon_label">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgba(0, 0, 0, 0);
+color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="text">
+              <string>:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="ip_port_value_label">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgba(0, 0, 0, 0);
+color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="text">
+              <string>192.168.2.1:5000</string>
+             </property>
+            </widget>
+           </item>
+           <item alignment="Qt::AlignRight">
+            <widget class="QPushButton" name="ip_port_copy_button">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgb(78, 154, 6);
+color: rgb(255, 255, 255);
+padding: 8px 32px 8px 32px;</string>
+             </property>
+             <property name="text">
+              <string>Copy</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="5,1,5,3">
+           <item alignment="Qt::AlignLeft">
+            <widget class="QLabel" name="username_label">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgba(0, 0, 0, 0);
+color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="text">
+              <string>Username</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="username_colon_label">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgba(0, 0, 0, 0);
+color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="text">
+              <string>:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="username_value_label">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgba(0, 0, 0, 0);
+color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="text">
+              <string>jarvisuser</string>
+             </property>
+            </widget>
+           </item>
+           <item alignment="Qt::AlignRight">
+            <widget class="QPushButton" name="username_copy_button">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgb(78, 154, 6);
+color: rgb(255, 255, 255);
+padding: 8px 32px 8px 32px;</string>
+             </property>
+             <property name="text">
+              <string>Copy</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="5,1,5,3">
+           <item alignment="Qt::AlignLeft">
+            <widget class="QLabel" name="password_label">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgba(0, 0, 0, 0);
+color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="text">
+              <string>Password</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="password_colon_label">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgba(0, 0, 0, 0);
+color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="text">
+              <string>:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="password_value_label">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgba(0, 0, 0, 0);
+color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="text">
+              <string>123456</string>
+             </property>
+            </widget>
+           </item>
+           <item alignment="Qt::AlignRight">
+            <widget class="QPushButton" name="password_copy_button">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgb(78, 154, 6);
+color: rgb(255, 255, 255);
+padding: 8px 32px 8px 32px;</string>
+             </property>
+             <property name="text">
+              <string>Copy</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="5,1,5,3">
+           <item alignment="Qt::AlignLeft">
+            <widget class="QLabel" name="folder_shared_label">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgba(0, 0, 0, 0);
+color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="text">
+              <string>Folder Shared</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="folder_shared_colon_label">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgba(0, 0, 0, 0);
+color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="text">
+              <string>:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTextBrowser" name="folder_shared_value_text_browser">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgba(0, 0, 0, 0);
+color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="html">
+              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'FreeSans'; font-size:20pt; font-weight:80; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;/home/user/temp1/temp2/temp3/temp4/temp5/temp6/random-folder-shared&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
+           </item>
+           <item alignment="Qt::AlignRight">
+            <widget class="QPushButton" name="folder_shared_copy_button">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgb(78, 154, 6);
+color: rgb(255, 255, 255);
+padding: 8px 32px 8px 32px;</string>
+             </property>
+             <property name="text">
+              <string>Copy</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="5,3">
+           <item alignment="Qt::AlignLeft">
+            <widget class="QLabel" name="anonymous_label">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgba(0, 0, 0, 0);
+color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="text">
+              <string>Anonymous Access</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="anonymous_enable_button">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgb(78, 154, 6);
+color: rgb(255, 255, 255);
+padding: 8px 32px 8px 32px;</string>
+             </property>
+             <property name="text">
+              <string>Enable</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QTextBrowser" name="log_text_browser">
+           <property name="styleSheet">
+            <string notr="true">font: 81 16pt &quot;FreeSans&quot;;
+background-color: rgb(46, 45, 45);
+color: rgb(255, 255, 255);</string>
+           </property>
+           <property name="html">
+            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'FreeSans'; font-size:16pt; font-weight:80; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Serving FTP on 127.0.0.1:21&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;[]127.0.0.1:2503 connected.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;127.0.0.1:2503 ==&amp;gt; 220 Ready.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;127.0.0.1:2503 &amp;lt;== USER anonymous&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;127.0.0.1:2503 ==&amp;gt; 331 Username ok, send password.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;127.0.0.1:2503 &amp;lt;== PASS ******&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;127.0.0.1:2503 ==&amp;gt; 230 Login successful.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;[anonymous]@127.0.0.1:2503 User anonymous logged in.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;127.0.0.1:2503 &amp;lt;== TYPE A&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;127.0.0.1:2503 ==&amp;gt; 200 Type set to: ASCII.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;127.0.0.1:2503 &amp;lt;== PASV&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;127.0.0.1:2503 ==&amp;gt; 227 Entering passive mode (127,0,0,1,9,201).&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;127.0.0.1:2503 &amp;lt;== LIST&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;127.0.0.1:2503 ==&amp;gt; 150 File status okay. About to open data connection.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;[anonymous]@127.0.0.1:2503 OK LIST &amp;quot;/&amp;quot;. Transfer starting.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;127.0.0.1:2503 ==&amp;gt; 226 Transfer complete.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;[anonymous]@127.0.0.1:2503 Transfer complete. 706 bytes transmitted.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;127.0.0.1:2503 &amp;lt;== QUIT&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;127.0.0.1:2503 ==&amp;gt; 221 Goodbye.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;[anonymous]@127.0.0.1:2503 Disconnected.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
+           <item>
+            <widget class="QPushButton" name="quit_button">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgb(176, 0, 32);
+color: rgb(255, 255, 255);
+padding: 16px;</string>
+             </property>
+             <property name="text">
+              <string>Quit</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="start_button">
+             <property name="styleSheet">
+              <string notr="true">font: 81 20pt &quot;FreeSans&quot;;
+background-color: rgb(55, 0, 179);
+color: rgb(255, 255, 255);
+padding: 16px;</string>
+             </property>
+             <property name="text">
+              <string>Start</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

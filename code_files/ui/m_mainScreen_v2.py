@@ -11,6 +11,7 @@ import logging
 from .packages.log_module.logger import Logger
 from .m_passwordManager import PasswordMainWidget
 from .m_settings import SettingsMainWidget
+from .m_ftpServer import FTPServerMainWidget
 import pathlib
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph
@@ -445,6 +446,9 @@ class MainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
         self.animate_button_press(buttonObj)
 
         Form = QtWidgets.QDialog()
+
+        self.loggerObj.info(f"opening {buttonObj.text()} module")
+        self.print_log()
         
         if(buttonObj.text() == "Password\nmanager"):
 
@@ -484,13 +488,29 @@ class MainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
             Form.exec()
 
             self.settingsDict = ui.settingsDict
+
+
+
+
+
+        elif(buttonObj.text() == "FTP\nserver"):
+
+            ftp_port = self.settingsDict.get("ftp_port")
+            ftp_username = self.settingsDict.get("ftp_username")
+            ftp_password = self.settingsDict.get("ftp_password")
+            ftp_default_folder = self.settingsDict.get("ftp_default_folder")
+            ftp_anonymous = self.settingsDict.get("ftp_anonymous")
+
+            ui = FTPServerMainWidget(self.loggerObj_store , ftp_port , ftp_username , ftp_password , ftp_default_folder , ftp_anonymous)
+            ui.setupUi(Form)
+            Form.show()
+            Form.exec()
         
 
         self.dialogBox_storage[buttonObj.text()] = [ui , Form]
 
 
-        self.loggerObj.info(f"opening {buttonObj.text()} module")
-        self.print_log()
+        
 
 
 

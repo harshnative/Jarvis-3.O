@@ -9,6 +9,7 @@ class GlobalDicts:
 class GlobalLists:
     modules_list = [
         "Password\nmanager" ,
+        "FTP\nserver" ,
         "Settings" ,
     ]
 
