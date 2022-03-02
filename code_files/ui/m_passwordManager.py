@@ -784,14 +784,55 @@ class PasswordShowWidget(QtWidgets.QWidget , password_show.Ui_Form):
         self.loggerObj.debug("delete button clicked")
         self.print_log()
 
-        self.windowQuitFlag = 2
-
         self.animate_button_press(buttonObj)
+
+        if(self.show_confirm_delete_dialog()):
+            self.loggerObj.info("deleting password")
+            self.print_log()
+            self.windowQuitFlag = 2
+        else:
+            self.loggerObj.info("password deletion cancelled by user")
+            self.print_log()
+            self.windowQuitFlag = 3
 
         self.close_button()
 
 
 
+
+    # method to show confirm delete dialog
+    def show_confirm_delete_dialog(self):
+        self.loggerObj.debug(f"show_confirm_delete_dialog invoked")
+        self.print_log()
+
+        self.toDeletePassword = False
+
+        msg = QtWidgets.QMessageBox()
+
+        msg.setWindowTitle("Jarvis Confirmation")
+
+        msg.setText("password will be deleted permantely and cannot be recovered")
+
+        msg.setIcon(QtWidgets.QMessageBox.Warning)
+
+        msg.setStandardButtons(QtWidgets.QMessageBox.Cancel | QtWidgets.QMessageBox.Ok)
+
+        msg.setDefaultButton(QtWidgets.QMessageBox.Cancel)
+
+        msg.buttonClicked.connect(self.show_confirm_delete_dialog_buttonPressed)
+
+        runMsg = msg.exec_()
+
+        self.loggerObj.debug(f"show_confirm_delete_dialog quitted")
+        self.print_log()
+
+        return self.toDeletePassword
+
+
+
+    def show_confirm_delete_dialog_buttonPressed(self , buttonObj):
+        if(buttonObj.text() == "&OK"):
+            self.toDeletePassword = True
 
 
 
@@ -1096,9 +1137,6 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
 
             # add horizontal layout to scroll area
             self.verticalLayout_2.addLayout(horizontalLayout)
-
-            self.loggerObj.debug(f"successfully added password at count = {count}")
-            self.print_log()
 
             count = count + 1
 
