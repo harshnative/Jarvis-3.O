@@ -992,6 +992,10 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
         self.loggerObj.debug("finished parent ui setup")
         self.print_log()
 
+        # add scroll gesture to scroll area
+        QtWidgets.QScroller.grabGesture(self.scrollArea , QtWidgets.QScroller.LeftMouseButtonGesture)
+
+
         # generate password in scroll area
         self.addPassToScrollArea()
 
