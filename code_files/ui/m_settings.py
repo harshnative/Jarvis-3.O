@@ -449,21 +449,24 @@ class SettingsMainWidget(QtWidgets.QWidget , settings.Ui_Form):
         
         self.ftp_anonymous_verticalLayout.addWidget(self.ftp_anonymous_label, 0, QtCore.Qt.AlignVCenter)
         
-        self.ftp_anonymous_checkbox = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.ftp_anonymous_checkbox.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-"font: 63 24pt \"FreeSans\";\n"
-"color: rgb(0, 0, 0);\n"
-"padding: 8px;\n"
-"margin: 8px;\n")
-        self.ftp_anonymous_checkbox.setObjectName("ftp_anonymous_checkbox")
-        
+        self.ftp_anonymous_checkbox_button = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
+        self.ftp_anonymous_checkbox_button.setStyleSheet("font: 81 16pt \"FreeSans\";\n"
+"background-color: rgb(55, 0, 179);\n"
+"color: rgb(255, 255, 255);\n"
+"padding: 16px;")
+        self.ftp_anonymous_checkbox_button.setObjectName("ftp_anonymous_checkbox_button")
+        self.ftp_anonymous_checkbox_button.setCheckable(True)
+
+        self.ftp_anonymous_checkbox_button.toggled.connect(lambda : self.animate_toggle_button(self.ftp_anonymous_checkbox_button , "Enabled" , "Disabled"))
+
         if(self.ftp_anonymous == "True"):
-            self.ftp_anonymous_checkbox.setChecked(True)
+            self.ftp_anonymous_checkbox_button.setChecked(True)
         else:
-            self.ftp_anonymous_checkbox.setChecked(False)
+            self.ftp_anonymous_checkbox_button.setChecked(True)
+
 
         
-        self.ftp_anonymous_verticalLayout.addWidget(self.ftp_anonymous_checkbox)
+        self.ftp_anonymous_verticalLayout.addWidget(self.ftp_anonymous_checkbox_button)
         
         self.verticalLayout_2.addLayout(self.ftp_anonymous_verticalLayout)
 
@@ -474,6 +477,20 @@ class SettingsMainWidget(QtWidgets.QWidget , settings.Ui_Form):
         self.pushButton.clicked.connect(self.close_button)
 
 
+
+
+
+    def animate_toggle_button(self , buttonObj , true_text , false_text):
+
+        self.loggerObj.debug("animating toggle button")
+        self.print_log()
+
+        self.animate_button_press(buttonObj)
+
+        if(buttonObj.isChecked()):
+            buttonObj.setText(true_text)
+        else:
+            buttonObj.setText(false_text)
 
 
 
@@ -543,7 +560,7 @@ class SettingsMainWidget(QtWidgets.QWidget , settings.Ui_Form):
 
 
         # ftp_anonymous
-        ftp_anonymous = str(self.ftp_anonymous_checkbox.isChecked())
+        ftp_anonymous = str(self.ftp_anonymous_checkbox_button.isChecked())
 
 
 
