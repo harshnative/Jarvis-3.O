@@ -32,7 +32,7 @@ class Ui_Form(object):
 #         self.verticalLayout_3.setObjectName("verticalLayout_3")
 #         self.label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
 #         self.label.setStyleSheet("background-color: rgba(0, 0, 0, 0);\n"
-# "font: 63 24pt \"FreeSans\";\n"
+# "font: 63 20pt \"FreeSans\";\n"
 # "color: rgb(255, 255, 255);\n"
 # "padding: 8px;\n"
 # "margin: 8px;")
@@ -40,7 +40,7 @@ class Ui_Form(object):
 #         self.verticalLayout_3.addWidget(self.label, 0, QtCore.Qt.AlignVCenter)
 #         self.lineEdit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
 #         self.lineEdit.setStyleSheet("background-color: rgb(85, 87, 83);\n"
-# "font: 63 24pt \"FreeSans\";\n"
+# "font: 63 20pt \"FreeSans\";\n"
 # "color: rgb(255, 255, 255);\n"
 # "padding: 8px;\n"
 # "margin: 8px;")
@@ -58,7 +58,7 @@ class Ui_Form(object):
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.pushButton = QtWidgets.QPushButton(Form)
         self.pushButton.setStyleSheet("background-color: rgb(1, 135, 134);\n"
-"font: 81 24pt \"FreeSans\";\n"
+"font: 81 20pt \"FreeSans\";\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 16px;\n"
 "margin: 16px;")
@@ -66,7 +66,7 @@ class Ui_Form(object):
         self.horizontalLayout_2.addWidget(self.pushButton)
         self.pushButton_2 = QtWidgets.QPushButton(Form)
         self.pushButton_2.setStyleSheet("background-color: rgb(55, 0, 179);\n"
-"font: 81 24pt \"FreeSans\";\n"
+"font: 81 20pt \"FreeSans\";\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 16px;\n"
 "margin: 16px;")

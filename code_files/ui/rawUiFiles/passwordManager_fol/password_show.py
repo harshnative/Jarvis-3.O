@@ -26,7 +26,7 @@ class Ui_Form(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.username_label = QtWidgets.QLabel(Form)
         self.username_label.setStyleSheet("background-color: rgba(0, 0, 0, 0);\n"
-"font: 63 24pt \"FreeSans\";\n"
+"font: 63 16pt \"FreeSans\";\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 8px;\n"
 "margin: 8px;")
@@ -34,7 +34,7 @@ class Ui_Form(object):
         self.horizontalLayout.addWidget(self.username_label, 0, QtCore.Qt.AlignVCenter)
         self.username_lineEdit = QtWidgets.QLineEdit(Form)
         self.username_lineEdit.setStyleSheet("background-color: rgb(85, 87, 83);\n"
-"font: 63 24pt \"FreeSans\";\n"
+"font: 63 16pt \"FreeSans\";\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 8px;\n"
 "margin: 8px;")
@@ -42,7 +42,7 @@ class Ui_Form(object):
         self.horizontalLayout.addWidget(self.username_lineEdit)
         self.username_copy_button = QtWidgets.QPushButton(Form)
         self.username_copy_button.setStyleSheet("background-color: rgb(55, 0, 179);\n"
-"font: 81 24pt \"FreeSans\";\n"
+"font: 81 16pt \"FreeSans\";\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 8px;\n"
 "margin: 8px;")
@@ -57,7 +57,7 @@ class Ui_Form(object):
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.password_label = QtWidgets.QLabel(Form)
         self.password_label.setStyleSheet("background-color: rgba(0, 0, 0, 0);\n"
-"font: 63 24pt \"FreeSans\";\n"
+"font: 63 16pt \"FreeSans\";\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 8px;\n"
 "margin: 8px;")
@@ -65,7 +65,7 @@ class Ui_Form(object):
         self.horizontalLayout_2.addWidget(self.password_label, 0, QtCore.Qt.AlignVCenter)
         self.password_lineEdit = QtWidgets.QLineEdit(Form)
         self.password_lineEdit.setStyleSheet("background-color: rgb(85, 87, 83);\n"
-"font: 63 24pt \"FreeSans\";\n"
+"font: 63 16pt \"FreeSans\";\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 8px;\n"
 "margin: 8px;")
@@ -73,7 +73,7 @@ class Ui_Form(object):
         self.horizontalLayout_2.addWidget(self.password_lineEdit)
         self.password_view_button = QtWidgets.QPushButton(Form)
         self.password_view_button.setStyleSheet("background-color: rgb(55, 0, 179);\n"
-"font: 81 24pt \"FreeSans\";\n"
+"font: 81 16pt \"FreeSans\";\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 8px;\n"
 "margin: 8px;")
@@ -81,7 +81,7 @@ class Ui_Form(object):
         self.horizontalLayout_2.addWidget(self.password_view_button)
         self.password_copy_button = QtWidgets.QPushButton(Form)
         self.password_copy_button.setStyleSheet("background-color: rgb(55, 0, 179);\n"
-"font: 81 24pt \"FreeSans\";\n"
+"font: 81 16pt \"FreeSans\";\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 8px;\n"
 "margin: 8px;")
@@ -96,7 +96,7 @@ class Ui_Form(object):
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.url_label = QtWidgets.QLabel(Form)
         self.url_label.setStyleSheet("background-color: rgba(0, 0, 0, 0);\n"
-"font: 63 24pt \"FreeSans\";\n"
+"font: 63 16pt \"FreeSans\";\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 8px;\n"
 "margin: 8px;")
@@ -104,7 +104,7 @@ class Ui_Form(object):
         self.horizontalLayout_3.addWidget(self.url_label)
         self.url_lineEdit = QtWidgets.QLineEdit(Form)
         self.url_lineEdit.setStyleSheet("background-color: rgb(85, 87, 83);\n"
-"font: 63 24pt \"FreeSans\";\n"
+"font: 63 16pt \"FreeSans\";\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 8px;\n"
 "margin: 8px;")
@@ -112,7 +112,7 @@ class Ui_Form(object):
         self.horizontalLayout_3.addWidget(self.url_lineEdit)
         self.url_copy_button = QtWidgets.QPushButton(Form)
         self.url_copy_button.setStyleSheet("background-color: rgb(55, 0, 179);\n"
-"font: 81 24pt \"FreeSans\";\n"
+"font: 81 16pt \"FreeSans\";\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 8px;\n"
 "margin: 8px;")
@@ -126,7 +126,7 @@ class Ui_Form(object):
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.caption_label = QtWidgets.QLabel(Form)
         self.caption_label.setStyleSheet("background-color: rgba(0, 0, 0, 0);\n"
-"font: 63 24pt \"FreeSans\";\n"
+"font: 63 16pt \"FreeSans\";\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 8px;\n"
 "margin: 8px;")
@@ -134,7 +134,7 @@ class Ui_Form(object):
         self.horizontalLayout_4.addWidget(self.caption_label)
         self.caption_lineEdit = QtWidgets.QLineEdit(Form)
         self.caption_lineEdit.setStyleSheet("background-color: rgb(85, 87, 83);\n"
-"font: 63 24pt \"FreeSans\";\n"
+"font: 63 16pt \"FreeSans\";\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 8px;\n"
 "margin: 8px;")
@@ -147,7 +147,7 @@ class Ui_Form(object):
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.tags_label = QtWidgets.QLabel(Form)
         self.tags_label.setStyleSheet("background-color: rgba(0, 0, 0, 0);\n"
-"font: 63 24pt \"FreeSans\";\n"
+"font: 63 16pt \"FreeSans\";\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 8px;\n"
 "margin: 8px;")
@@ -155,7 +155,7 @@ class Ui_Form(object):
         self.horizontalLayout_5.addWidget(self.tags_label)
         self.tags_lineEdit = QtWidgets.QLineEdit(Form)
         self.tags_lineEdit.setStyleSheet("background-color: rgb(85, 87, 83);\n"
-"font: 63 24pt \"FreeSans\";\n"
+"font: 63 16pt \"FreeSans\";\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 8px;\n"
 "margin: 8px;")
@@ -169,7 +169,7 @@ class Ui_Form(object):
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
         self.history_label = QtWidgets.QLabel(Form)
         self.history_label.setStyleSheet("background-color: rgba(0, 0, 0, 0);\n"
-"font: 63 24pt \"FreeSans\";\n"
+"font: 63 16pt \"FreeSans\";\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 8px;\n"
 "margin: 8px;")
@@ -184,7 +184,7 @@ class Ui_Form(object):
         
         self.history_view_button = QtWidgets.QPushButton(Form)
         self.history_view_button.setStyleSheet("background-color: rgb(55, 0, 179);\n"
-"font: 81 24pt \"FreeSans\";\n"
+"font: 81 16pt \"FreeSans\";\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 8px;\n"
 "margin: 8px;")
@@ -198,7 +198,7 @@ class Ui_Form(object):
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.back_button = QtWidgets.QPushButton(Form)
         self.back_button.setStyleSheet("background-color: rgb(1, 135, 134);\n"
-"font: 81 24pt \"FreeSans\";\n"
+"font: 81 16pt \"FreeSans\";\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 8px;\n"
 "margin: 8px;")
@@ -206,7 +206,7 @@ class Ui_Form(object):
         self.horizontalLayout_7.addWidget(self.back_button)
         self.delete_button = QtWidgets.QPushButton(Form)
         self.delete_button.setStyleSheet("background-color: rgb(176, 0, 32);\n"
-"font: 81 24pt \"FreeSans\";\n"
+"font: 81 16pt \"FreeSans\";\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 8px;\n"
 "margin: 8px;")
@@ -214,7 +214,7 @@ class Ui_Form(object):
         self.horizontalLayout_7.addWidget(self.delete_button)
         self.ok_button = QtWidgets.QPushButton(Form)
         self.ok_button.setStyleSheet("background-color: rgb(55, 0, 179);\n"
-"font: 81 24pt \"FreeSans\";\n"
+"font: 81 16pt \"FreeSans\";\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 8px;\n"
 "margin: 8px;")

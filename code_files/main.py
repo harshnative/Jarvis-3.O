@@ -21,28 +21,14 @@ from ui.packages.globalData.globalDataClasses import GlobalData_main
 # Checking the users operating system and adding data to global class
 osUsing = platform.system()
 
-if(osUsing == "Linux"):
-    GlobalData_main.isOnLinux = True
-    
+
+if(osUsing == "Windows"):
+    GlobalData_main.isOnWindows = True
+
     if(sys.argv[0].find(".py") != -1):
-        GlobalData_main.folderPathLinux = os.getcwd() + "/JarvisData"
+        GlobalData_main.folderPathWindows = os.getcwd() + "/JarvisData"
         GlobalData_main.loggerLevel = logging.DEBUG
         GlobalData_main.loadingAnimationCount = 5
-    else:
-        GlobalData_main.folderPathLinux = pathlib.Path("/opt/JarvisData").absolute()
-
-    # making the program data folder
-    try:
-        os.mkdir(GlobalData_main.folderPathLinux)
-    except FileExistsError:
-        pass
-    except PermissionError:
-        print("\nPlease run jarvis using sudo")
-        sys.exit()
-
-
-elif(osUsing == "Windows"):
-    GlobalData_main.isOnWindows = True
 
     # making the program data folder
     try:

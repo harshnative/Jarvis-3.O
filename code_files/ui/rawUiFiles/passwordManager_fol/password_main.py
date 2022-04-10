@@ -24,21 +24,21 @@ class Ui_Form(object):
         self.horizontalLayout.setContentsMargins(-1, 32, -1, 16)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.back_button = QtWidgets.QPushButton(Form)
-        self.back_button.setStyleSheet("font: 81 20pt \"FreeSans\";\n"
+        self.back_button.setStyleSheet("font: 81 16pt \"FreeSans\";\n"
 "background-color: rgb(1, 135, 134);\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 16px;")
         self.back_button.setObjectName("back_button")
         self.horizontalLayout.addWidget(self.back_button)
         self.quit_button = QtWidgets.QPushButton(Form)
-        self.quit_button.setStyleSheet("font: 81 20pt \"FreeSans\";\n"
+        self.quit_button.setStyleSheet("font: 81 16pt \"FreeSans\";\n"
 "background-color: rgb(176, 0, 32);\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 16px;")
         self.quit_button.setObjectName("quit_button")
         self.horizontalLayout.addWidget(self.quit_button)
         self.add_new_button = QtWidgets.QPushButton(Form)
-        self.add_new_button.setStyleSheet("font: 81 20pt \"FreeSans\";\n"
+        self.add_new_button.setStyleSheet("font: 81 16pt \"FreeSans\";\n"
 "background-color: rgb(55, 0, 179);\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 16px;")
@@ -49,7 +49,7 @@ class Ui_Form(object):
         self.filter_lineEdit.setMinimumSize(QtCore.QSize(0, 48))
         self.filter_lineEdit.setStyleSheet("background-color: rgb(46, 45, 45);\n"
 "color: rgb(255, 255, 255);\n"
-"font: 63 20pt \"FreeSans\";\n"
+"font: 63 16pt \"FreeSans\";\n"
 "margin: 16px;\n"
 "padding: 8px;")
         self.filter_lineEdit.setObjectName("filter_lineEdit")
@@ -89,7 +89,7 @@ class Ui_Form(object):
         self.horizontalLayout_2.setContentsMargins(-1, 0, -1, 16)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.pushButton = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton.setStyleSheet("font: 81 20pt \"FreeSans\";\n"
+        self.pushButton.setStyleSheet("font: 81 16pt \"FreeSans\";\n"
 "background-color: rgb(55, 0, 179);\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 16px;\n"
@@ -97,14 +97,14 @@ class Ui_Form(object):
         self.pushButton.setObjectName("pushButton")
         self.horizontalLayout_2.addWidget(self.pushButton)
         self.pushButton_2 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_2.setStyleSheet("font: 100 20pt \"FreeSans\";\n"
+        self.pushButton_2.setStyleSheet("font: 100 16pt \"FreeSans\";\n"
 "background-color: rgb(78, 154, 6);\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 16px;")
         self.pushButton_2.setObjectName("pushButton_2")
         self.horizontalLayout_2.addWidget(self.pushButton_2)
         self.pushButton_3 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_3.setStyleSheet("font: 100 20pt \"FreeSans\";\n"
+        self.pushButton_3.setStyleSheet("font: 100 16pt \"FreeSans\";\n"
 "background-color: rgb(78, 154, 6);\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 16px;")
@@ -119,7 +119,7 @@ class Ui_Form(object):
         self.horizontalLayout_3.setContentsMargins(-1, 0, -1, 16)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.pushButton_4 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_4.setStyleSheet("font: 81 20pt \"FreeSans\";\n"
+        self.pushButton_4.setStyleSheet("font: 81 16pt \"FreeSans\";\n"
 "background-color: rgb(55, 0, 179);\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 16px;")
@@ -139,7 +139,7 @@ class Ui_Form(object):
         self.horizontalLayout_4.setContentsMargins(-1, 0, -1, 16)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.pushButton_9 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_9.setStyleSheet("font: 81 20pt \"FreeSans\";\n"
+        self.pushButton_9.setStyleSheet("font: 81 16pt \"FreeSans\";\n"
 "background-color: rgb(55, 0, 179);\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 16px;")
@@ -159,7 +159,7 @@ class Ui_Form(object):
         self.horizontalLayout_5.setContentsMargins(-1, 0, -1, 16)
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.pushButton_12 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_12.setStyleSheet("font: 81 20pt \"FreeSans\";\n"
+        self.pushButton_12.setStyleSheet("font: 81 16pt \"FreeSans\";\n"
 "background-color: rgb(55, 0, 179);\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 16px;")
@@ -179,7 +179,7 @@ class Ui_Form(object):
         self.horizontalLayout_6.setContentsMargins(-1, 0, -1, 16)
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
         self.pushButton_16 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_16.setStyleSheet("font: 81 20pt \"FreeSans\";\n"
+        self.pushButton_16.setStyleSheet("font: 81 16pt \"FreeSans\";\n"
 "background-color: rgb(55, 0, 179);\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 16px;")
@@ -199,7 +199,7 @@ class Ui_Form(object):
         self.horizontalLayout_7.setContentsMargins(-1, 0, -1, 16)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
         self.pushButton_18 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_18.setStyleSheet("font: 81 20pt \"FreeSans\";\n"
+        self.pushButton_18.setStyleSheet("font: 81 16pt \"FreeSans\";\n"
 "background-color: rgb(55, 0, 179);\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 16px;")
@@ -219,7 +219,7 @@ class Ui_Form(object):
         self.horizontalLayout_8.setContentsMargins(-1, -1, -1, 16)
         self.horizontalLayout_8.setObjectName("horizontalLayout_8")
         self.pushButton_21 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_21.setStyleSheet("font: 81 20pt \"FreeSans\";\n"
+        self.pushButton_21.setStyleSheet("font: 81 16pt \"FreeSans\";\n"
 "background-color: rgb(55, 0, 179);\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 16px;")
@@ -239,7 +239,7 @@ class Ui_Form(object):
         self.horizontalLayout_9.setContentsMargins(-1, 0, -1, 16)
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
         self.pushButton_24 = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
-        self.pushButton_24.setStyleSheet("font: 81 20pt \"FreeSans\";\n"
+        self.pushButton_24.setStyleSheet("font: 81 16pt \"FreeSans\";\n"
 "background-color: rgb(55, 0, 179);\n"
 "color: rgb(255, 255, 255);\n"
 "padding: 16px;")

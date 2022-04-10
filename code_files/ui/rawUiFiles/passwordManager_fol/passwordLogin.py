@@ -30,7 +30,7 @@ class Ui_Form(object):
         self.password = QtWidgets.QLabel(Form)
         self.password.setStyleSheet("\n"
 "color: rgb(238, 238, 236);\n"
-"font: 85 20pt \"FreeSans\";\n"
+"font: 85 16pt \"FreeSans\";\n"
 "")
         self.password.setObjectName("password")
         self.verticalLayout.addWidget(self.password)
@@ -41,7 +41,7 @@ class Ui_Form(object):
         self.input1.setAutoFillBackground(False)
         self.input1.setStyleSheet("background-color: rgb(52, 49, 49);\n"
 "color: rgb(238, 238, 236);\n"
-"font: 85 20pt \"FreeSans\";\n"
+"font: 85 16pt \"FreeSans\";\n"
 "padding: 8px;\n"
 "margin: 16px;")
         self.input1.setObjectName("input1")
@@ -49,7 +49,7 @@ class Ui_Form(object):
         self.pushButton = QtWidgets.QPushButton(Form)
         self.pushButton.setStyleSheet("background-color: rgb(55, 0, 179);\n"
 "color: rgb(238, 238, 236);\n"
-"font: 85 24pt \"FreeSans\";\n"
+"font: 85 20pt \"FreeSans\";\n"
 "padding: 8px;\n"
 "margin: 16px;")
         self.pushButton.setObjectName("pushButton")
@@ -59,7 +59,7 @@ class Ui_Form(object):
         self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.password2 = QtWidgets.QLabel(Form)
         self.password2.setStyleSheet("color: rgb(238, 238, 236);\n"
-"font: 85 20pt \"FreeSans\";")
+"font: 85 16pt \"FreeSans\";")
         self.password2.setObjectName("password2")
         self.verticalLayout.addWidget(self.password2)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
@@ -67,7 +67,7 @@ class Ui_Form(object):
         self.input2 = QtWidgets.QLineEdit(Form)
         self.input2.setStyleSheet("background-color: rgb(52, 49, 49);\n"
 "color: rgb(238, 238, 236);\n"
-"font: 85 20pt \"FreeSans\";\n"
+"font: 85 16pt \"FreeSans\";\n"
 "padding: 8px;\n"
 "margin: 16px;")
         self.input2.setClearButtonEnabled(False)
@@ -76,7 +76,7 @@ class Ui_Form(object):
         self.pushButton_2 = QtWidgets.QPushButton(Form)
         self.pushButton_2.setStyleSheet("background-color: rgb(55, 0, 179);\n"
 "color: rgb(238, 238, 236);\n"
-"font: 85 24pt \"FreeSans\";\n"
+"font: 85 20pt \"FreeSans\";\n"
 "padding: 8px;\n"
 "margin: 16px;")
         self.pushButton_2.setObjectName("pushButton_2")

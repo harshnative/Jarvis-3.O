@@ -18,7 +18,8 @@ import pyqtgraph
 import random
 from threading import Thread
 from collections import deque
-
+from scipy.interpolate import make_interp_spline
+import numpy
 
 
 
@@ -162,6 +163,7 @@ class MainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
 
         # add graph canvas
         self.graphWidget = pyqtgraph.PlotWidget()
+        self.graphWidget.setMouseEnabled(x=False, y=False)
         self.graphWidget.hideAxis('bottom')
         self.graphWidget.hideAxis('left')
         self.graphWidget.setBackground('#000000')    
@@ -182,7 +184,14 @@ class MainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
         self.plotTimer.timeout.connect(self.showPlot)
         self.plotTimer.start(1000)
 
-        self.graphWidget_line = self.graphWidget.plot(range(len(self.valueQueue)) , self.valueQueue , pen=self.graphWidget_pen)
+        X_Y_Spline_temp = make_interp_spline(range(len(self.valueQueue)) , self.valueQueue)
+ 
+        # Returns evenly spaced numbers
+        # over a specified interval.
+        X_Temp = numpy.linspace(0, len(self.valueQueue)-1, 500)
+        Y_Temp = X_Y_Spline_temp(X_Temp)
+
+        self.graphWidget_line = self.graphWidget.plot(X_Temp , Y_Temp ,  pen=self.graphWidget_pen)
 
         self.loggerObj.debug("finished custom ui setup")
         self.print_log()
@@ -194,7 +203,14 @@ class MainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
 
     def showPlot(self):
         self.graphWidget_line.clear()
-        self.graphWidget_line = self.graphWidget.plot(range(len(self.valueQueue)) , self.valueQueue ,  pen=self.graphWidget_pen)
+        X_Y_Spline = make_interp_spline(range(len(self.valueQueue)) , self.valueQueue)
+ 
+        # Returns evenly spaced numbers
+        # over a specified interval.
+        X = numpy.linspace(0, len(self.valueQueue)-1, 500)
+        Y = X_Y_Spline(X)
+
+        self.graphWidget_line = self.graphWidget.plot(X , Y ,  pen=self.graphWidget_pen)
 
         self.valueQueue.popleft()
         self.valueQueue.append(random.random())

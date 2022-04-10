@@ -31,7 +31,7 @@ class Ui_Form(object):
         self.pushButton.setMinimumSize(QtCore.QSize(0, 128))
         self.pushButton.setStyleSheet("background-color: rgb(55, 0, 179);\n"
 "color: rgb(238, 238, 236);\n"
-"font: 85 24pt \"FreeSans\";\n"
+"font: 85 16pt \"FreeSans\";\n"
 "\n"
 "\n"
 "border-image: url(:/newPrefix/prev_button.svg);")
@@ -42,7 +42,7 @@ class Ui_Form(object):
         self.pushButton_3.setMinimumSize(QtCore.QSize(0, 128))
         self.pushButton_3.setStyleSheet("background-color: rgb(55, 0, 179);\n"
 "color: rgb(238, 238, 236);\n"
-"font: 85 24pt \"FreeSans\";\n"
+"font: 85 16pt \"FreeSans\";\n"
 "\n"
 "")
         self.pushButton_3.setObjectName("pushButton_3")
@@ -51,7 +51,7 @@ class Ui_Form(object):
         self.pushButton_4.setMinimumSize(QtCore.QSize(0, 128))
         self.pushButton_4.setStyleSheet("background-color: rgb(55, 0, 179);\n"
 "color: rgb(238, 238, 236);\n"
-"font: 85 24pt \"FreeSans\";\n"
+"font: 85 16pt \"FreeSans\";\n"
 "\n"
 "")
         self.pushButton_4.setObjectName("pushButton_4")
@@ -60,7 +60,7 @@ class Ui_Form(object):
         self.pushButton_5.setMinimumSize(QtCore.QSize(0, 128))
         self.pushButton_5.setStyleSheet("background-color: rgb(55, 0, 179);\n"
 "color: rgb(238, 238, 236);\n"
-"font: 85 24pt \"FreeSans\";\n"
+"font: 85 16pt \"FreeSans\";\n"
 "\n"
 "")
         self.pushButton_5.setObjectName("pushButton_5")
@@ -69,7 +69,7 @@ class Ui_Form(object):
         self.pushButton_6.setMinimumSize(QtCore.QSize(0, 128))
         self.pushButton_6.setStyleSheet("background-color: rgb(55, 0, 179);\n"
 "color: rgb(238, 238, 236);\n"
-"font: 85 24pt \"FreeSans\";\n"
+"font: 85 16pt \"FreeSans\";\n"
 "\n"
 "")
         self.pushButton_6.setObjectName("pushButton_6")
@@ -78,7 +78,7 @@ class Ui_Form(object):
         self.pushButton_2.setMinimumSize(QtCore.QSize(0, 128))
         self.pushButton_2.setStyleSheet("background-color: rgb(55, 0, 179);\n"
 "color: rgb(238, 238, 236);\n"
-"font: 85 24pt \"FreeSans\";\n"
+"font: 85 16pt \"FreeSans\";\n"
 "\n"
 "\n"
 "border-image: url(:/newPrefix/next_button.svg);")
