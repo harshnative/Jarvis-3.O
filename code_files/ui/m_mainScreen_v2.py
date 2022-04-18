@@ -20,6 +20,7 @@ from threading import Thread
 from collections import deque
 from scipy.interpolate import make_interp_spline
 import numpy
+import math
 
 
 
@@ -167,31 +168,25 @@ class MainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
         self.graphWidget.hideAxis('bottom')
         self.graphWidget.hideAxis('left')
         self.graphWidget.setBackground('#000000')    
-        self.graphWidget_pen = pyqtgraph.mkPen(color=(82, 5, 255))
+        self.graphWidget_pen = pyqtgraph.mkPen(color=(127, 75, 249) , width=2)
     
 
         # adding canvas to the layout
         self.gridLayout_2.addWidget(self.graphWidget)
 
-        self.sleep_time = 1
-        self.valueQueue = deque()
-        self.valueQueue_size = 10
+        self.start_wave_plot_value = 0
+        self.jump_wave_plot_value = 4*numpy.pi
+        self.step_wave_plot_value = 0.2
 
-        for i in range(self.valueQueue_size):
-            self.valueQueue.append(random.random())
+        x = numpy.arange(self.start_wave_plot_value, self.start_wave_plot_value + self.jump_wave_plot_value,0.05)   # start,stop,step
+        y = numpy.sin(x) + numpy.random.normal(scale=0.2, size=len(x))
+        self.start_wave_plot_value = self.start_wave_plot_value + self.step_wave_plot_value
 
         self.plotTimer = QtCore.QTimer()
         self.plotTimer.timeout.connect(self.showPlot)
-        self.plotTimer.start(1000)
-
-        X_Y_Spline_temp = make_interp_spline(range(len(self.valueQueue)) , self.valueQueue)
- 
-        # Returns evenly spaced numbers
-        # over a specified interval.
-        X_Temp = numpy.linspace(0, len(self.valueQueue)-1, 500)
-        Y_Temp = X_Y_Spline_temp(X_Temp)
-
-        self.graphWidget_line = self.graphWidget.plot(X_Temp , Y_Temp ,  pen=self.graphWidget_pen)
+        self.plotTimer.start(50)
+        self.graphWidget.setYRange(-2, 2, padding=0)
+        self.graphWidget_line = self.graphWidget.plot(x , y ,  pen=self.graphWidget_pen)
 
         self.loggerObj.debug("finished custom ui setup")
         self.print_log()
@@ -203,17 +198,13 @@ class MainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
 
     def showPlot(self):
         self.graphWidget_line.clear()
-        X_Y_Spline = make_interp_spline(range(len(self.valueQueue)) , self.valueQueue)
- 
-        # Returns evenly spaced numbers
-        # over a specified interval.
-        X = numpy.linspace(0, len(self.valueQueue)-1, 500)
-        Y = X_Y_Spline(X)
+        
+        x = numpy.arange(self.start_wave_plot_value, self.start_wave_plot_value + self.jump_wave_plot_value,0.1)   # start,stop,step
+        y = numpy.sin(x) + numpy.random.normal(scale=0.2, size=len(x))
+        self.start_wave_plot_value = self.start_wave_plot_value + self.step_wave_plot_value
 
-        self.graphWidget_line = self.graphWidget.plot(X , Y ,  pen=self.graphWidget_pen)
+        self.graphWidget_line = self.graphWidget.plot(x , y ,  pen=self.graphWidget_pen)
 
-        self.valueQueue.popleft()
-        self.valueQueue.append(random.random())
 
 
 
