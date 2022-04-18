@@ -93,7 +93,7 @@ else:
 
 
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PySide6 import QtCore, QtGui, QtWidgets
 from ui.m_mainScreen_v2 import MainScreenWidget as test
 
 
@@ -124,7 +124,7 @@ if __name__ == "__main__":
 
     ui.setupUi(Form)
     Form.show()
-    rc = app.exec_()
+    rc = app.exec()
 
     del app
     del ui

@@ -1,6 +1,6 @@
 from .rawUiFiles.ftpServer_fol import ftpServer
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5 import QtMultimedia, QtMultimediaWidgets
+from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6 import QtMultimedia, QtMultimediaWidgets
 import sys 
 import os
 import time
@@ -474,7 +474,7 @@ class FTPServerMainWidget(QtWidgets.QWidget , ftpServer.Ui_Form):
 
 
 
-        runMsg = msg.exec_()
+        runMsg = msg.exec()
 
         self.loggerObj.debug("showDefaultFolderNotSetDialog quitted")
         self.print_log()
@@ -498,7 +498,7 @@ class FTPServerMainWidget(QtWidgets.QWidget , ftpServer.Ui_Form):
 
         msg.setStandardButtons(QtWidgets.QMessageBox.Retry)
 
-        runMsg = msg.exec_()
+        runMsg = msg.exec()
 
         self.loggerObj.debug(f"showErrorDialog quitted with error = {errorMsg}")
         self.print_log()

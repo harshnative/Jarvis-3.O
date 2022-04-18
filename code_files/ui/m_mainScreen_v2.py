@@ -1,7 +1,7 @@
 from typing import _SpecialForm
 from .rawUiFiles.mainScreen_fol import mainScreen
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5 import QtMultimedia, QtMultimediaWidgets
+from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6 import QtMultimedia, QtMultimediaWidgets
 import sys 
 import os
 import time
@@ -553,7 +553,7 @@ class MainScreenWidget(QtWidgets.QWidget , mainScreen.Ui_Form):
 
         msg.setStandardButtons(QtWidgets.QMessageBox.Retry)
 
-        runMsg = msg.exec_()
+        runMsg = msg.exec()
 
         self.loggerObj.debug(f"showErrorDialog quitted with error = {errorMsg}")
         self.print_log()

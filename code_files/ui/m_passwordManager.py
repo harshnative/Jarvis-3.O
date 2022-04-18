@@ -1,8 +1,8 @@
 from .rawUiFiles.passwordManager_fol import passwordLogin
 from .rawUiFiles.passwordManager_fol import password_main
 from .rawUiFiles.passwordManager_fol import password_show
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5 import QtMultimedia, QtMultimediaWidgets
+from PySide6 import QtCore, QtGui, QtWidgets
+from PySide6 import QtMultimedia, QtMultimediaWidgets
 import sys 
 import os
 import time
@@ -396,7 +396,7 @@ class PasswordLoginWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
         # msg.setStandardButtons(QtWidgets.QMessageBox.Ignore)
 
 
-        runMsg = msg.exec_()
+        runMsg = msg.exec()
 
         self.loggerObj.debug("showPasswordDoesNotMatch quitted")
         self.print_log()
@@ -420,7 +420,7 @@ class PasswordLoginWidget(QtWidgets.QWidget , passwordLogin.Ui_Form):
 
         msg.setStandardButtons(QtWidgets.QMessageBox.Retry)
 
-        runMsg = msg.exec_()
+        runMsg = msg.exec()
 
         self.loggerObj.debug("showPasswordIncorrect quitted")
         self.print_log()
@@ -821,7 +821,7 @@ class PasswordShowWidget(QtWidgets.QWidget , password_show.Ui_Form):
 
         msg.buttonClicked.connect(self.show_confirm_delete_dialog_buttonPressed)
 
-        runMsg = msg.exec_()
+        runMsg = msg.exec()
 
         self.loggerObj.debug(f"show_confirm_delete_dialog quitted")
         self.print_log()
@@ -1446,7 +1446,7 @@ class PasswordMainWidget(QtWidgets.QWidget , password_main.Ui_Form):
 
 
 
-        runMsg = msg.exec_()
+        runMsg = msg.exec()
 
         self.loggerObj.debug("showPasswordChangedDialog quitted")
         self.print_log()
